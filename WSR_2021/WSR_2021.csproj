@@ -99,6 +99,9 @@
     <Compile Include="Model\Event.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Gender.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\HackatonModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -113,6 +116,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HackatonModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagrams.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Users.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>

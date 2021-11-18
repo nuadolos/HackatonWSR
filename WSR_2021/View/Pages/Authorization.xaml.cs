@@ -116,7 +116,7 @@ namespace WSR_2021.View.Pages
                     MessageBox.Show($"Добро пожаловать, {visitingUser.Users.Surname} {visitingUser.Users.Name} {visitingUser.Users.Middlename}!");
 
                     NavigateToWindow = true;
-                    Transition.MainFrame.Navigate(new OrganizerPage());
+                    Transition.MainFrame.Navigate(new OrganizerPage(Transition.Context.Users.FirstOrDefault(p => p.Id == visitingUser.NumberId)));
                 }
                 else
                     MessageBox.Show($"Неверно введен текст из картинки!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
