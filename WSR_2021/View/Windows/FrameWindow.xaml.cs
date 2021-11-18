@@ -31,7 +31,7 @@ namespace WSR_2021.View.Windows
 
         private void MainFrame_ContentRendered(object sender, EventArgs e)
         {
-            if (Transition.MainFrame.CanGoBack)
+            if (Transition.MainFrame.CanGoBack && !Authorization.NavigateToWindow)
                 BtnBack.Visibility = Visibility.Visible;
             else
                 BtnBack.Visibility = Visibility.Hidden;
@@ -40,6 +40,13 @@ namespace WSR_2021.View.Windows
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             Transition.MainFrame.GoBack();
+        }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            Authorization.NavigateToWindow = false;
+            while (Transition.MainFrame.CanGoBack)
+                Transition.MainFrame.GoBack();
         }
     }
 }

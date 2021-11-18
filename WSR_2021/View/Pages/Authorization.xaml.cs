@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace WSR_2021.View.Pages
     public partial class Authorization : Page
     {
         #region Свойства и поля
+
+        public static bool NavigateToWindow { get; set; }
 
         private DispatcherTimer timer = new DispatcherTimer();
         public DateTime OneMinuteTimer { get; set; }
@@ -74,36 +77,49 @@ namespace WSR_2021.View.Pages
             if (SaveAccount)
             {
                 AccountCheck.IsChecked = true;
+
+                LogTBox.Foreground = System.Windows.Media.Brushes.Black;
                 LogTBox.Text = IdNumber.ToString();
+
+                PasTBox.Foreground = System.Windows.Media.Brushes.Black;
                 PasTBox.Text = Password;
             }
 
             timer.Tick += new EventHandler(TimerTickEvent);
             timer.Interval = new TimeSpan(1000);
+
+            CaptchaImage.Source = Captcha((int)CaptchaImage.Width, (int)CaptchaImage.Height);
         }
 
         #endregion
 
-        #region Кнопки
+        #region Кнопка авторизации и отмены
         private void LogBtn_Click(object sender, RoutedEventArgs e)
         {
             var visitingUser = Transition.Context.Account.FirstOrDefault(p => p.NumberId.ToString() == LogTBox.Text || p.Password == PasTBox.Text);
 
-            if (visitingUser != null)
+            if (visitingUser != null )
             {
-                if (AccountCheck.IsChecked == true)
+                if (CaptchaText.ToLower() == CaptchaTBox.Text.ToLower())
                 {
-                    IdNumber = visitingUser.NumberId;
-                    Password = visitingUser.Password;
-                    SaveAccount = true;
+                    if (AccountCheck.IsChecked == true)
+                    {
+                        IdNumber = visitingUser.NumberId;
+                        Password = visitingUser.Password;
+                        SaveAccount = true;
 
-                    Properties.Settings.Default.Save();
+                        Properties.Settings.Default.Save();
+                    }
+                    else
+                        Properties.Settings.Default.Reset();
+
+                    MessageBox.Show($"Добро пожаловать, {visitingUser.Users.Surname} {visitingUser.Users.Name} {visitingUser.Users.Middlename}!");
+
+                    NavigateToWindow = true;
+                    Transition.MainFrame.Navigate(new OrganizerPage());
                 }
                 else
-                    Properties.Settings.Default.Reset();
-
-                MessageBox.Show($"Добро пожаловать, {visitingUser.Users.Surname} {visitingUser.Users.Name} {visitingUser.Users.Middlename}!");
-                //Transition.MainFrame.Navigate();
+                    MessageBox.Show($"Неверно введен текст из картинки!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
@@ -120,7 +136,7 @@ namespace WSR_2021.View.Pages
                     return;
                 }
 
-                MessageBox.Show($"Логин или пароль были введенны неправильно!\nОсталось {CountTry} попыток", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Логин или пароль были введенны неправильно!\n\tОсталось {CountTry} попыток!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -137,30 +153,30 @@ namespace WSR_2021.View.Pages
         {
             if (PasTBox.Text == "")
             {
-                PasTBox.Foreground = Brushes.Gray;
+                PasTBox.Foreground = System.Windows.Media.Brushes.Gray;
                 PasTBox.Text = "Enter your password";
             }
         }
 
         private void PasTBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            PasTBox.Foreground = Brushes.Black;
+            PasTBox.Foreground = System.Windows.Media.Brushes.Black;
             PasTBox.Text = null;
         }
 
         private void LogTBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            LogTBox.Foreground = Brushes.Black;
+            LogTBox.Foreground = System.Windows.Media.Brushes.Black;
             if (LogTBox.Text == "")
             {
-                LogTBox.Foreground = Brushes.Gray;
+                LogTBox.Foreground = System.Windows.Media.Brushes.Gray;
                 LogTBox.Text = "Enter your IdNumber";
             }
         }
 
         private void LogTBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            LogTBox.Foreground = Brushes.Black;
+            LogTBox.Foreground = System.Windows.Media.Brushes.Black;
             LogTBox.Text = null;
         }
 
@@ -181,6 +197,41 @@ namespace WSR_2021.View.Pages
 
                 timer.Stop();
             }
+        }
+
+        #endregion
+
+        #region Создание Captcha
+
+        private ImageSource Captcha(int width, int height)
+        {
+            Random rnd = new Random();
+
+            Bitmap bitMap = new Bitmap(width, height);
+            Graphics grap = Graphics.FromImage(bitMap);
+            grap.Clear(System.Drawing.Color.White);
+
+            string symbols = "1234567890qwERtYuIOpASdFGhJKLZxCVBNm";
+            for (int i = 0; i < 5; i++)
+                CaptchaText += symbols[rnd.Next(symbols.Length)];
+
+            grap.DrawString(CaptchaText, new Font("Segoe UI", 36), System.Drawing.Brushes.Black, new PointF(0, -4));
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (rnd.Next() % 400 == 0)
+                        grap.DrawLine(Pens.White, new PointF(i, j), new PointF(rnd.Next(i + 5), rnd.Next(j + 5)));
+                    //if (rnd.Next(width) % 800 == 0)
+                    //    grap.DrawArc(Pens.Gray, (float)i, (float)j, width/2, height/2, 60, 90);
+                    if (rnd.Next(height) % 10 == 0)
+                        bitMap.SetPixel(i, j, System.Drawing.Color.Gray);
+                }
+            }
+
+            var SourcePicture = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bitMap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+
+            return SourcePicture;
         }
 
         #endregion

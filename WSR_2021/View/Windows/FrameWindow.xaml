@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WSR_2021.View.Windows"
         mc:Ignorable="d"
-        Title="FrameWindow" Height="600" Width="900">
+        Title="FrameWindow" Height="700" Width="1000">
     <Grid Background="Gray">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -15,6 +15,7 @@
         <TextBlock Text="HackatonSkills" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Foreground="White"></TextBlock>
 
         <Frame Name="MainFrame" NavigationUIVisibility="Hidden" Background="Coral" Grid.Row="1" ContentRendered="MainFrame_ContentRendered"/>
-        <Button Name="BtnBack" HorizontalAlignment="Left" Content="Назад" Click="BtnBack_Click" Visibility="Hidden"></Button>
+        <Button Name="BtnBack" HorizontalAlignment="Left" Content="Назад" Click="BtnBack_Click" Margin="10"></Button>
+        <Button Name="BtnLogout" HorizontalAlignment="Right" Content="Logout" Click="BtnLogout_Click" Margin="10"></Button>
     </Grid>
 </Window>

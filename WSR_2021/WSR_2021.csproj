@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -69,6 +70,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Pages\EventPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\OrganizerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\ViewEventPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -114,6 +123,12 @@
     </Compile>
     <Compile Include="View\Pages\EventPage.xaml.cs">
       <DependentUpon>EventPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\OrganizerPage.xaml.cs">
+      <DependentUpon>OrganizerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ViewEventPage.xaml.cs">
+      <DependentUpon>ViewEventPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\FrameWindow.xaml.cs">
       <DependentUpon>FrameWindow.xaml</DependentUpon>

@@ -34,7 +34,7 @@
         <StackPanel Grid.Row="2" OpacityMask="Black">
             <WrapPanel Background="Gray" Height="20"></WrapPanel>
             <WrapPanel>
-                <Image Name="CaptchaImage" Margin="10" Width="150" Height="60"></Image>
+                <Image Name="CaptchaImage" Margin="10" Width="180" Height="60"></Image>
                 <TextBox Name="CaptchaTBox" Width="100"></TextBox>
             </WrapPanel>
         </StackPanel>
