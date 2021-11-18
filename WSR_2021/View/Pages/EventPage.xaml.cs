@@ -43,7 +43,7 @@ namespace WSR_2021.View.Pages
         {
             FrameWindow window = new FrameWindow();
             window.Show();
-            this.Visibility = Visibility.Collapsed;
+            MainWindow.StartWindow.Close();
         }
     }
 }

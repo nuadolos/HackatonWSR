@@ -84,6 +84,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\Account.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Event.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
@@ -102,7 +105,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HackatonModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\sysdiagrams.cs">
+    <Compile Include="Model\Users.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utils\Transition.cs" />

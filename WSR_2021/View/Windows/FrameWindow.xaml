@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WSR_2021.View.Windows"
         mc:Ignorable="d"
-        Title="FrameWindow" Height="450" Width="800">
+        Title="FrameWindow" Height="600" Width="900">
     <Grid Background="Gray">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>

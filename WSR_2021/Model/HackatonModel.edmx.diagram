@@ -5,8 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c5f8074cb43644cf9b74bb0d7d833cbc" Name="Diagram1">
-        <EntityTypeShape EntityType="HackatonWSRModel.Event" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HackatonWSRModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Account" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Event" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Users" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="HackatonWSRModel.FK_Account_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -21,10 +21,13 @@ namespace WSR_2021
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MainWindow StartWindow { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
 
+            StartWindow = this;
             OnePage.Navigate(new EventPage());
         }
     }
