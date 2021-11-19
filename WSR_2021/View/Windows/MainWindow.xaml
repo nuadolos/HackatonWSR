@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WSR_2021"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="900" MinHeight="600" MinWidth="900">
+        Title="MainWindow" Height="700" Width="900" MinHeight="700" MinWidth="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
@@ -16,6 +16,7 @@
         <Image HorizontalAlignment="Left" Width="120" Margin="10"></Image>
         <TextBlock Text="HackatonSkills" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Foreground="White" ></TextBlock>
 
-        <Frame Name="OnePage" NavigationUIVisibility="Hidden" Grid.Row="1" Background="Coral"></Frame>
+        <Frame Name="OnePage" NavigationUIVisibility="Hidden" Grid.Row="1" Background="Coral" ContentRendered="OnePage_ContentRendered"></Frame>
+        <Button Name="BtnBack" HorizontalAlignment="Left" Content="Назад" Click="BtnBack_Click" Margin="10" Height="60"></Button>
     </Grid>
 </Window>

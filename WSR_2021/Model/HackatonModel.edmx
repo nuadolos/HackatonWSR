@@ -20,14 +20,22 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Direction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Direction" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DirectionId" Type="int" Nullable="false" />
           <Property Name="DateEvent" Type="date" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Logo" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Gender">
@@ -83,6 +91,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Event_Direction">
+          <End Role="Direction" Type="Self.Direction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="DirectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -128,6 +150,7 @@
         <EntityContainer Name="Хранилище HackatonWSRModelContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Direction" EntityType="Self.Direction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -136,6 +159,10 @@
           <AssociationSet Name="FK_Account_Users" Association="Self.FK_Account_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Direction" Association="Self.FK_Event_Direction">
+            <End Role="Direction" EntitySet="Direction" />
+            <End Role="Event" EntitySet="Event" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Country" Association="Self.FK_Users_Country">
             <End Role="Country" EntitySet="Country" />
@@ -157,6 +184,7 @@
         <EntityContainer Name="HackatonWSREntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Account" EntityType="HackatonWSRModel.Account" />
           <EntitySet Name="Country" EntityType="HackatonWSRModel.Country" />
+          <EntitySet Name="Direction" EntityType="HackatonWSRModel.Direction" />
           <EntitySet Name="Event" EntityType="HackatonWSRModel.Event" />
           <EntitySet Name="Gender" EntityType="HackatonWSRModel.Gender" />
           <EntitySet Name="Role" EntityType="HackatonWSRModel.Role" />
@@ -169,6 +197,10 @@
           <AssociationSet Name="FK_Users_Country" Association="HackatonWSRModel.FK_Users_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Direction" Association="HackatonWSRModel.FK_Event_Direction">
+            <End Role="Direction" EntitySet="Direction" />
+            <End Role="Event" EntitySet="Event" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Gender" Association="HackatonWSRModel.FK_Users_Gender">
             <End Role="Gender" EntitySet="Gender" />
@@ -196,15 +228,25 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Users" Relationship="HackatonWSRModel.FK_Users_Country" FromRole="Country" ToRole="Users" />
         </EntityType>
+        <EntityType Name="Direction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Event" Relationship="HackatonWSRModel.FK_Event_Direction" FromRole="Direction" ToRole="Event" />
+        </EntityType>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Direction" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DirectionId" Type="Int32" Nullable="false" />
           <Property Name="DateEvent" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Logo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Direction" Relationship="HackatonWSRModel.FK_Event_Direction" FromRole="Event" ToRole="Direction" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
@@ -279,6 +321,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Event_Direction">
+          <End Type="HackatonWSRModel.Direction" Role="Direction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HackatonWSRModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="DirectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Gender">
           <End Type="HackatonWSRModel.Gender" Role="Gender" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -330,12 +386,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Direction">
+            <EntityTypeMapping TypeName="HackatonWSRModel.Direction">
+              <MappingFragment StoreEntitySet="Direction">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Event">
             <EntityTypeMapping TypeName="HackatonWSRModel.Event">
               <MappingFragment StoreEntitySet="Event">
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="DateEvent" ColumnName="DateEvent" />
-                <ScalarProperty Name="Direction" ColumnName="Direction" />
+                <ScalarProperty Name="DirectionId" ColumnName="DirectionId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

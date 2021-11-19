@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using WSR_2021.Utils;
+using WSR_2021.View.Windows;
 
 namespace WSR_2021.View.Pages
 {
@@ -24,8 +25,6 @@ namespace WSR_2021.View.Pages
     public partial class Authorization : Page
     {
         #region Свойства и поля
-
-        public static bool NavigateToWindow { get; set; }
 
         private DispatcherTimer timer = new DispatcherTimer();
         public DateTime OneMinuteTimer { get; set; }
@@ -115,7 +114,6 @@ namespace WSR_2021.View.Pages
 
                     MessageBox.Show($"Добро пожаловать, {visitingUser.Users.Surname} {visitingUser.Users.Name} {visitingUser.Users.Middlename}!", "Вход в систему", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    NavigateToWindow = true;
                     Transition.MainFrame.Navigate(new OrganizerPage(Transition.Context.Users.FirstOrDefault(p => p.Id == visitingUser.NumberId), visitingUser));
                 }
                 else
@@ -148,7 +146,8 @@ namespace WSR_2021.View.Pages
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            FrameWindow.MainWin.DialogResult = true;
+            FrameWindow.MainWin.Close();
         }
 
         #endregion

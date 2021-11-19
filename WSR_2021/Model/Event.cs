@@ -16,8 +16,11 @@ namespace WSR_2021.Model
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Direction { get; set; }
+        public int DirectionId { get; set; }
         public System.DateTime DateEvent { get; set; }
+        public string Description { get; set; }
         public string Logo { get; set; }
+    
+        public virtual Direction Direction { get; set; }
     }
 }

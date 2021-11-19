@@ -47,6 +47,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -101,6 +102,9 @@
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Country.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Direction.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Event.cs">
@@ -203,6 +207,7 @@
       <DependentUpon>HackatonModel.edmx</DependentUpon>
       <LastGenOutput>HackatonModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="View\Picture\s-F4iTxVzYg.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

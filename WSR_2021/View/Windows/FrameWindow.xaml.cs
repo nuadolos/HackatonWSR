@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WSR_2021.Utils;
 using WSR_2021.View.Pages;
+using WSR_2021.View.Windows;
 
 namespace WSR_2021.View.Windows
 {
@@ -21,17 +22,33 @@ namespace WSR_2021.View.Windows
     /// </summary>
     public partial class FrameWindow : Window
     {
+        /// <summary>
+        /// Статическое свойство MainWin, используемое для закрытие окна вне класса FrameWindow
+        /// </summary>
+        public static FrameWindow MainWin { get; set; }
+
+        #region Конструктор окна FrameWindow
+
         public FrameWindow()
         {
             InitializeComponent();
+
+            MainWin = this;
 
             MainFrame.Navigate(new Authorization());
             Transition.MainFrame = MainFrame;
         }
 
+        #endregion
+
+        #region Отображение кнопок, если возможно сделать переход на предыдущую страницу
+
+        //Кнопка BtnBack работает иначе. Она отображается при соблюдении двух условий:
+        //Переход на предыдущую страницу и отображаемая странице не является OrganizerPage
+
         private void MainFrame_ContentRendered(object sender, EventArgs e)
         {
-            if (Transition.MainFrame.CanGoBack && !Authorization.NavigateToWindow)
+            if (Transition.MainFrame.CanGoBack && !Transition.MainFrame.Content.ToString().Contains("OrganizerPage"))
             {
                 BtnBack.Visibility = Visibility.Visible;
             }
@@ -51,9 +68,10 @@ namespace WSR_2021.View.Windows
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            Authorization.NavigateToWindow = false;
             while (Transition.MainFrame.CanGoBack)
                 Transition.MainFrame.GoBack();
         }
+
+        #endregion
     }
 }

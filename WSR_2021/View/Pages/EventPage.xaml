@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WSR_2021.View.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="900"
       Title="HackatonSkills">
 
     <Grid>
@@ -17,22 +17,27 @@
 
         <StackPanel HorizontalAlignment="Center" Margin="10">
             <WrapPanel>
-                <TextBlock Text="Направление"></TextBlock>
-                <ComboBox Name="DirectionCBox" Margin="49, 0, 10, 0"></ComboBox>
+                <TextBlock Text="Направление" Width="150" TextAlignment="Left"></TextBlock>
+                <ComboBox Name="DirectionCBox" SelectionChanged="DirectionCBox_SelectionChanged" DisplayMemberPath="Name"></ComboBox>
             </WrapPanel>
             <WrapPanel>
-                <TextBlock Text="Дата мероприятия"></TextBlock>
-                <ComboBox Name="DateEventCBox"></ComboBox>
+                <TextBlock Text="Дата мероприятия" Width="150" TextAlignment="Left"></TextBlock>
+                <DatePicker Name="DateEventDPic" Width="175" Height="30" Margin="10" SelectedDateChanged="DateEventDPic_SelectedDateChanged" LostFocus="DateEventDPic_LostFocus" GotFocus="DateEventDPic_GotFocus"></DatePicker>
             </WrapPanel>
         </StackPanel>
-        <Button Content="Поиск" HorizontalAlignment="Right" Name="SearchBtn" Click="SearchBtn_Click"></Button>
 
-        <DataGrid Grid.Row="1" AutoGenerateColumns="False" Name="EventGrid">
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" Name="EventGrid" IsReadOnly="True" MouseDoubleClick="EventGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Логотип"></DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Логотип">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="/View/Picture/s-F4iTxVzYg.jpg" Width="100" Height="100"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Наименование мероприятия" Binding="{Binding Title}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Направление" Binding="{Binding Direction}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Дата" Binding="{Binding DateEvent}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Направление" Binding="{Binding Direction.Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата" Binding="{Binding DateEvent, StringFormat=d}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
