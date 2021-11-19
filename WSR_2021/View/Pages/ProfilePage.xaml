@@ -1,0 +1,92 @@
+﻿<Page x:Class="WSR_2021.View.Pages.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WSR_2021.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="ProfilePage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Мой профиль" Grid.ColumnSpan="2" FontSize="30" FontWeight="Bold"></TextBlock>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="10, 0">
+            <WrapPanel HorizontalAlignment="Stretch" Margin="0, 10">
+                <TextBlock Text="ФИО:" Width="120" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBlock Foreground="Gray">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1} {2}">
+                            <Binding Path="Surname"></Binding>
+                            <Binding Path="Name"></Binding>
+                            <Binding Path="Middlename"></Binding>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Stretch" Margin="0, 10">
+                <TextBlock Text="Пол:" Width="120" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBlock Text="{Binding Gender.Name}" Foreground="Gray"></TextBlock>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Stretch" Margin="0, 10">
+                <TextBlock Text="Дата рождения:" Width="120" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBlock Text="{Binding Birthday, StringFormat=d}" Foreground="Gray"></TextBlock>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Stretch" Margin="0, 10">
+                <TextBlock Text="Id Number:" Width="120" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBlock Text="{Binding Id}" Foreground="Gray"></TextBlock>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Stretch" Margin="0, 10">
+                <TextBlock Text="Страна:" Width="120" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBlock Text="{Binding Country.Name}" Foreground="Gray"></TextBlock>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Stretch" Margin="0, 10">
+                <TextBlock Text="Телефон:" Width="120" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBlock Text="{Binding Phone}" Foreground="Gray"></TextBlock>
+            </WrapPanel>
+            <WrapPanel HorizontalAlignment="Stretch" Margin="0, 10">
+                <TextBlock Text="Email:" Width="120" TextAlignment="Right" Margin="10"></TextBlock>
+                <TextBlock Text="{Binding Email}" Foreground="Gray"></TextBlock>
+            </WrapPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
+            <Image Source="/View/Picture/s-F4iTxVzYg.jpg" Width="150" Height="200" Margin="50, 30" HorizontalAlignment="Right"></Image>
+            <CheckBox Content="Смена пароля" HorizontalAlignment="Center" Margin="5" Name="ChangeCheck" Checked="ChangeCheck_Checked" Unchecked="ChangeCheck_Unchecked"></CheckBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Width="120" Text="Пароль:" TextAlignment="Right" Margin="5"/>
+                <PasswordBox Width="200" HorizontalAlignment="Right" Grid.Column="1" Margin="10" Name="PassPBox" LostFocus="PassPBox_LostFocus" PasswordChanged="PassPBox_PasswordChanged"/>
+                <TextBox Text="Password" OpacityMask="Green" FontStyle="Italic" Foreground="Gray" Name="PasTBox" Grid.Column="1" GotFocus="PasTBox_GotFocus" TextChanged="PasTBox_TextChanged" IsEnabled="False"></TextBox>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Width="120" Text="Повтор пароля:" TextAlignment="Right" Margin="5"></TextBlock>
+                <PasswordBox Width="200" HorizontalAlignment="Right" Grid.Column="1" Margin="10" Name="RePassPBox" LostFocus="RePassPBox_LostFocus"/>
+                <TextBox Text="Re-enter password" FontStyle="Italic" Foreground="Gray" Name="RePasTBox" Grid.Column="1" GotFocus="RePasTBox_GotFocus" IsEnabled="False"></TextBox>
+            </Grid>
+            <CheckBox Content="Видимый пароль" HorizontalAlignment="Center" Margin="5" Name="PassCheck" Checked="PassCheck_Checked" Unchecked="PassCheck_Unchecked" IsEnabled="False"></CheckBox>
+        </StackPanel>
+
+        <WrapPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right">
+            <Button Width="80" Content="Ок" Margin="10" Name="SavePasBtn" Click="SavePasBtn_Click"></Button>
+            <Button Width="80" Content="Отмена" Margin="10" Name="CancelBtn" Click="CancelBtn_Click"></Button>
+        </WrapPanel>
+    </Grid>
+</Page>
