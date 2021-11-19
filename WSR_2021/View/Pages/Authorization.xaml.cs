@@ -98,7 +98,7 @@ namespace WSR_2021.View.Pages
         {
             var visitingUser = Transition.Context.Account.FirstOrDefault(p => p.NumberId.ToString() == LogTBox.Text || p.Password == PasTBox.Text);
 
-            if (visitingUser != null )
+            if (visitingUser != null)
             {
                 if (CaptchaText.ToLower() == CaptchaTBox.Text.ToLower())
                 {
@@ -113,13 +113,19 @@ namespace WSR_2021.View.Pages
                     else
                         Properties.Settings.Default.Reset();
 
-                    MessageBox.Show($"Добро пожаловать, {visitingUser.Users.Surname} {visitingUser.Users.Name} {visitingUser.Users.Middlename}!");
+                    MessageBox.Show($"Добро пожаловать, {visitingUser.Users.Surname} {visitingUser.Users.Name} {visitingUser.Users.Middlename}!", "Вход в систему", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     NavigateToWindow = true;
-                    Transition.MainFrame.Navigate(new OrganizerPage(Transition.Context.Users.FirstOrDefault(p => p.Id == visitingUser.NumberId)));
+                    Transition.MainFrame.Navigate(new OrganizerPage(Transition.Context.Users.FirstOrDefault(p => p.Id == visitingUser.NumberId), visitingUser));
                 }
                 else
+                {
                     MessageBox.Show($"Неверно введен текст из картинки!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    CaptchaTBox.Text = null;
+                    CaptchaText = null;
+                    CaptchaImage.Source = Captcha((int)CaptchaImage.Width, (int)CaptchaImage.Height);
+                }
             }
             else
             {

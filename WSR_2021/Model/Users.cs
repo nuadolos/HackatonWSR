@@ -26,9 +26,14 @@ namespace WSR_2021.Model
         public string Middlename { get; set; }
         public int GenderId { get; set; }
         public int RoleId { get; set; }
+        public System.DateTime Birthday { get; set; }
+        public int CountryId { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account> Account { get; set; }
+        public virtual Country Country { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual Role Role { get; set; }
     }

@@ -77,6 +77,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Pages\ProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Pages\ViewEventPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -94,6 +98,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Account.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Country.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Event.cs">
@@ -117,6 +124,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HackatonModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Role.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\sysdiagrams.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
@@ -132,6 +142,9 @@
     </Compile>
     <Compile Include="View\Pages\OrganizerPage.xaml.cs">
       <DependentUpon>OrganizerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\ViewEventPage.xaml.cs">
       <DependentUpon>ViewEventPage.xaml</DependentUpon>

@@ -13,6 +13,13 @@
           <Property Name="NumberId" Type="int" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="Id" />
@@ -57,6 +64,10 @@
           <Property Name="Middlename" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="GenderId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="Birthday" Type="date" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <Association Name="FK_Account_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1">
@@ -69,6 +80,20 @@
             </Principal>
             <Dependent Role="Account">
               <PropertyRef Name="NumberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -102,6 +127,7 @@
         </Association>
         <EntityContainer Name="Хранилище HackatonWSRModelContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -110,6 +136,10 @@
           <AssociationSet Name="FK_Account_Users" Association="Self.FK_Account_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Country" Association="Self.FK_Users_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Gender" Association="Self.FK_Users_Gender">
             <End Role="Gender" EntitySet="Gender" />
@@ -126,6 +156,7 @@
       <Schema Namespace="HackatonWSRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="HackatonWSREntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Account" EntityType="HackatonWSRModel.Account" />
+          <EntitySet Name="Country" EntityType="HackatonWSRModel.Country" />
           <EntitySet Name="Event" EntityType="HackatonWSRModel.Event" />
           <EntitySet Name="Gender" EntityType="HackatonWSRModel.Gender" />
           <EntitySet Name="Role" EntityType="HackatonWSRModel.Role" />
@@ -134,6 +165,10 @@
           <AssociationSet Name="FK_Account_Users" Association="HackatonWSRModel.FK_Account_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Country" Association="HackatonWSRModel.FK_Users_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Gender" Association="HackatonWSRModel.FK_Users_Gender">
             <End Role="Gender" EntitySet="Gender" />
@@ -152,6 +187,14 @@
           <Property Name="NumberId" Type="Int32" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Users" Relationship="HackatonWSRModel.FK_Account_Users" FromRole="Account" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="HackatonWSRModel.FK_Users_Country" FromRole="Country" ToRole="Users" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -199,7 +242,12 @@
           <Property Name="Middlename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GenderId" Type="Int32" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Account" Relationship="HackatonWSRModel.FK_Account_Users" FromRole="Users" ToRole="Account" />
+          <NavigationProperty Name="Country" Relationship="HackatonWSRModel.FK_Users_Country" FromRole="Users" ToRole="Country" />
           <NavigationProperty Name="Gender" Relationship="HackatonWSRModel.FK_Users_Gender" FromRole="Users" ToRole="Gender" />
           <NavigationProperty Name="Role" Relationship="HackatonWSRModel.FK_Users_Role" FromRole="Users" ToRole="Role" />
         </EntityType>
@@ -214,6 +262,20 @@
             </Principal>
             <Dependent Role="Account">
               <PropertyRef Name="NumberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Country">
+          <End Type="HackatonWSRModel.Country" Role="Country" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HackatonWSRModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CountryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -260,6 +322,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="HackatonWSRModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Event">
             <EntityTypeMapping TypeName="HackatonWSRModel.Event">
               <MappingFragment StoreEntitySet="Event">
@@ -301,6 +371,10 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="HackatonWSRModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="GenderId" ColumnName="GenderId" />
                 <ScalarProperty Name="Middlename" ColumnName="Middlename" />

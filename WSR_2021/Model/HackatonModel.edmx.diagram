@@ -5,13 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c5f8074cb43644cf9b74bb0d7d833cbc" Name="Diagram1">
-        <EntityTypeShape EntityType="HackatonWSRModel.Account" Width="1.5" PointX="5.25" PointY="1.5" />
-        <EntityTypeShape EntityType="HackatonWSRModel.Event" Width="1.5" PointX="2.75" PointY="4.75" />
-        <EntityTypeShape EntityType="HackatonWSRModel.Gender" Width="1.5" PointX="0.75" PointY="5.5" />
-        <EntityTypeShape EntityType="HackatonWSRModel.Role" Width="1.5" PointX="0.75" PointY="1.5" />
-        <EntityTypeShape EntityType="HackatonWSRModel.sysdiagrams" Width="1.5" PointX="4.75" PointY="4.75" />
-        <EntityTypeShape EntityType="HackatonWSRModel.Users" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Account" Width="1.5" PointX="5.25" PointY="3.5" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Country" Width="1.5" PointX="0.75" PointY="6.375" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Event" Width="1.5" PointX="2.75" PointY="7.25" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Gender" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Role" Width="1.5" PointX="0.75" PointY="3.625" />
+        <EntityTypeShape EntityType="HackatonWSRModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="6.25" />
+        <EntityTypeShape EntityType="HackatonWSRModel.Users" Width="1.5" PointX="3" PointY="2.5" />
         <AssociationConnector Association="HackatonWSRModel.FK_Account_Users" />
+        <AssociationConnector Association="HackatonWSRModel.FK_Users_Country" />
         <AssociationConnector Association="HackatonWSRModel.FK_Users_Gender" />
         <AssociationConnector Association="HackatonWSRModel.FK_Users_Role" />
       </Diagram>
