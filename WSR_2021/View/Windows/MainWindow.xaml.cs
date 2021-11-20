@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WSR_2021.View.Pages;
+using WSR_2021.Utils;
 
 namespace WSR_2021
 {
@@ -34,6 +35,7 @@ namespace WSR_2021
 
             StartWindow = this;
             OnePage.Navigate(new EventPage());
+            Transition.MainFrame = OnePage;
         }
 
         #endregion
@@ -42,7 +44,7 @@ namespace WSR_2021
 
         private void OnePage_ContentRendered(object sender, EventArgs e)
         {
-            if (OnePage.CanGoBack)
+            if (Transition.MainFrame.CanGoBack)
                 BtnBack.Visibility = Visibility.Visible;
             else
                 BtnBack.Visibility = Visibility.Hidden;
@@ -50,7 +52,17 @@ namespace WSR_2021
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            OnePage.GoBack();
+            Transition.MainFrame.GoBack();
+        }
+
+        #endregion
+
+        #region При закрытие окна FrameWindow Frame класса Transition находится под контролем OnePage
+
+        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+                Transition.MainFrame = OnePage;
         }
 
         #endregion

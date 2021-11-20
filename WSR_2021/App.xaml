@@ -44,5 +44,13 @@
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
         </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Width" Value="175"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
     </Application.Resources>
 </Application>

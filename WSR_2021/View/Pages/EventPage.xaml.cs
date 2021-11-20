@@ -44,6 +44,9 @@ namespace WSR_2021.View.Pages
             });
             DirectionCBox.ItemsSource = allDirection;
             DirectionCBox.SelectedIndex = 0;
+
+            if (MainWindow.StartWindow.Visibility == Visibility.Hidden)
+                AddEventBtn.Visibility = Visibility.Visible;
         }
 
         #endregion
@@ -101,9 +104,14 @@ namespace WSR_2021.View.Pages
 
         private void EventGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            NavigationService.Navigate(new ViewEventPage(EventGrid.SelectedItem as Event));
+            Transition.MainFrame.Navigate(new ViewEventPage(EventGrid.SelectedItem as Event));
         }
 
         #endregion
+
+        private void AddEventBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Transition.MainFrame.Navigate(new AddEventPage());
+        }
     }
 }

@@ -42,5 +42,6 @@
         </DataGrid>
 
         <Button Content="Вход" Grid.Row="2" HorizontalAlignment="Right" Name="LogBtn" Click="LogBtn_Click"></Button>
+        <Button Content="Добавление" Grid.Row="2" HorizontalAlignment="Right" Name="AddEventBtn" Click="AddEventBtn_Click" Visibility="Hidden"></Button>
     </Grid>
 </Page>

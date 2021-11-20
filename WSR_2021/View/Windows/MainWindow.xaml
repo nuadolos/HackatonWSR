@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WSR_2021"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="900" MinHeight="700" MinWidth="1000">
+        Title="MainWindow" Height="700" Width="900" MinHeight="700" MinWidth="1000" IsVisibleChanged="Window_IsVisibleChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
