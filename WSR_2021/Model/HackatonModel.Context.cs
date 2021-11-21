@@ -31,6 +31,7 @@ namespace WSR_2021.Model
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Direction> Direction { get; set; }
         public virtual DbSet<Event> Event { get; set; }
+        public virtual DbSet<EventActivity> EventActivity { get; set; }
         public virtual DbSet<Gender> Gender { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }

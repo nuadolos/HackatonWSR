@@ -73,5 +73,14 @@ namespace WSR_2021.View.Windows
         }
 
         #endregion
+
+        #region При нажатии на крестик пользователь возвращается на начальное окно
+
+        private void MainWind_Closed(object sender, EventArgs e)
+        {
+            MainWindow.StartWindow.Visibility = Visibility.Visible;
+        }
+
+        #endregion
     }
 }

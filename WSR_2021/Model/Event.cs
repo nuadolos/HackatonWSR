@@ -17,7 +17,7 @@ namespace WSR_2021.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Event()
         {
-            this.Activity = new HashSet<Activity>();
+            this.EventActivity = new HashSet<EventActivity>();
         }
     
         public int Id { get; set; }
@@ -30,9 +30,9 @@ namespace WSR_2021.Model
         public string Description { get; set; }
         public string Logo { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Activity> Activity { get; set; }
         public virtual City City { get; set; }
         public virtual Direction Direction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EventActivity> EventActivity { get; set; }
     }
 }

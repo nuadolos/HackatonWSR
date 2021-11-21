@@ -109,9 +109,13 @@ namespace WSR_2021.View.Pages
 
         #endregion
 
+        #region Кнопка перехода на страницу AddEventBtn, доступная только в окне FrameWindow
+
         private void AddEventBtn_Click(object sender, RoutedEventArgs e)
         {
             Transition.MainFrame.Navigate(new AddEventPage());
         }
+
+        #endregion
     }
 }

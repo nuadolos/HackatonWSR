@@ -20,7 +20,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TimeActivity" Type="int" Nullable="false" />
-          <Property Name="EventId" Type="int" Nullable="false" />
           <Property Name="JuryId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="City">
@@ -57,6 +56,15 @@
           <Property Name="EndEvent" Type="time" Precision="7" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Logo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EventActivity">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="ActivityId" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="ActivityId" Type="int" Nullable="false" />
+          <Property Name="Nothing" Type="nvarchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
@@ -111,20 +119,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Activity_Event">
-          <End Role="Event" Type="Self.Event" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Event">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Activity">
-              <PropertyRef Name="EventId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Activity_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -164,6 +158,34 @@
             </Principal>
             <Dependent Role="Event">
               <PropertyRef Name="DirectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventActivity_Activity">
+          <End Role="Activity" Type="Self.Activity" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventActivity" Type="Self.EventActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventActivity">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventActivity_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventActivity" Type="Self.EventActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventActivity">
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -216,6 +238,7 @@
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Direction" EntityType="Self.Direction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventActivity" EntityType="Self.EventActivity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -223,10 +246,6 @@
           <AssociationSet Name="FK_Account_Users" Association="Self.FK_Account_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Account" EntitySet="Account" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Activity_Event" Association="Self.FK_Activity_Event">
-            <End Role="Event" EntitySet="Event" />
-            <End Role="Activity" EntitySet="Activity" />
           </AssociationSet>
           <AssociationSet Name="FK_Activity_Users" Association="Self.FK_Activity_Users">
             <End Role="Users" EntitySet="Users" />
@@ -239,6 +258,14 @@
           <AssociationSet Name="FK_Event_Direction" Association="Self.FK_Event_Direction">
             <End Role="Direction" EntitySet="Direction" />
             <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventActivity_Activity" Association="Self.FK_EventActivity_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="EventActivity" EntitySet="EventActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventActivity_Event" Association="Self.FK_EventActivity_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="EventActivity" EntitySet="EventActivity" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Country" Association="Self.FK_Users_Country">
             <End Role="Country" EntitySet="Country" />
@@ -264,6 +291,7 @@
           <EntitySet Name="Country" EntityType="HackatonWSRModel.Country" />
           <EntitySet Name="Direction" EntityType="HackatonWSRModel.Direction" />
           <EntitySet Name="Event" EntityType="HackatonWSRModel.Event" />
+          <EntitySet Name="EventActivity" EntityType="HackatonWSRModel.EventActivity" />
           <EntitySet Name="Gender" EntityType="HackatonWSRModel.Gender" />
           <EntitySet Name="Role" EntityType="HackatonWSRModel.Role" />
           <EntitySet Name="sysdiagrams" EntityType="HackatonWSRModel.sysdiagrams" />
@@ -272,13 +300,13 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Account" EntitySet="Account" />
           </AssociationSet>
-          <AssociationSet Name="FK_Activity_Event" Association="HackatonWSRModel.FK_Activity_Event">
-            <End Role="Event" EntitySet="Event" />
-            <End Role="Activity" EntitySet="Activity" />
-          </AssociationSet>
           <AssociationSet Name="FK_Activity_Users" Association="HackatonWSRModel.FK_Activity_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventActivity_Activity" Association="HackatonWSRModel.FK_EventActivity_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="EventActivity" EntitySet="EventActivity" />
           </AssociationSet>
           <AssociationSet Name="FK_Event_City" Association="HackatonWSRModel.FK_Event_City">
             <End Role="City" EntitySet="City" />
@@ -291,6 +319,10 @@
           <AssociationSet Name="FK_Event_Direction" Association="HackatonWSRModel.FK_Event_Direction">
             <End Role="Direction" EntitySet="Direction" />
             <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventActivity_Event" Association="HackatonWSRModel.FK_EventActivity_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="EventActivity" EntitySet="EventActivity" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Gender" Association="HackatonWSRModel.FK_Users_Gender">
             <End Role="Gender" EntitySet="Gender" />
@@ -317,10 +349,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeActivity" Type="Int32" Nullable="false" />
-          <Property Name="EventId" Type="Int32" Nullable="false" />
           <Property Name="JuryId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Event" Relationship="HackatonWSRModel.FK_Activity_Event" FromRole="Activity" ToRole="Event" />
           <NavigationProperty Name="Users" Relationship="HackatonWSRModel.FK_Activity_Users" FromRole="Activity" ToRole="Users" />
+          <NavigationProperty Name="EventActivity" Relationship="HackatonWSRModel.FK_EventActivity_Activity" FromRole="Activity" ToRole="EventActivity" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -359,9 +390,20 @@
           <Property Name="EndEvent" Type="Time" Nullable="false" Precision="7" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Logo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Activity" Relationship="HackatonWSRModel.FK_Activity_Event" FromRole="Event" ToRole="Activity" />
           <NavigationProperty Name="City" Relationship="HackatonWSRModel.FK_Event_City" FromRole="Event" ToRole="City" />
           <NavigationProperty Name="Direction" Relationship="HackatonWSRModel.FK_Event_Direction" FromRole="Event" ToRole="Direction" />
+          <NavigationProperty Name="EventActivity" Relationship="HackatonWSRModel.FK_EventActivity_Event" FromRole="Event" ToRole="EventActivity" />
+        </EntityType>
+        <EntityType Name="EventActivity">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="ActivityId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="ActivityId" Type="Int32" Nullable="false" />
+          <Property Name="Nothing" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Activity" Relationship="HackatonWSRModel.FK_EventActivity_Activity" FromRole="EventActivity" ToRole="Activity" />
+          <NavigationProperty Name="Event" Relationship="HackatonWSRModel.FK_EventActivity_Event" FromRole="EventActivity" ToRole="Event" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
@@ -423,20 +465,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Activity_Event">
-          <End Type="HackatonWSRModel.Event" Role="Event" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="HackatonWSRModel.Activity" Role="Activity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Event">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Activity">
-              <PropertyRef Name="EventId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Activity_Users">
           <End Type="HackatonWSRModel.Users" Role="Users" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -448,6 +476,20 @@
             </Principal>
             <Dependent Role="Activity">
               <PropertyRef Name="JuryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventActivity_Activity">
+          <End Type="HackatonWSRModel.Activity" Role="Activity" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HackatonWSRModel.EventActivity" Role="EventActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventActivity">
+              <PropertyRef Name="ActivityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -490,6 +532,20 @@
             </Principal>
             <Dependent Role="Event">
               <PropertyRef Name="DirectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventActivity_Event">
+          <End Type="HackatonWSRModel.Event" Role="Event" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HackatonWSRModel.EventActivity" Role="EventActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventActivity">
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -540,7 +596,6 @@
             <EntityTypeMapping TypeName="HackatonWSRModel.Activity">
               <MappingFragment StoreEntitySet="Activity">
                 <ScalarProperty Name="JuryId" ColumnName="JuryId" />
-                <ScalarProperty Name="EventId" ColumnName="EventId" />
                 <ScalarProperty Name="TimeActivity" ColumnName="TimeActivity" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -583,6 +638,15 @@
                 <ScalarProperty Name="DirectionId" ColumnName="DirectionId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventActivity">
+            <EntityTypeMapping TypeName="HackatonWSRModel.EventActivity">
+              <MappingFragment StoreEntitySet="EventActivity">
+                <ScalarProperty Name="Nothing" ColumnName="Nothing" />
+                <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

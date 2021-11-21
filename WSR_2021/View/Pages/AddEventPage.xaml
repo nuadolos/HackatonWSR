@@ -28,11 +28,25 @@
         <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="10">
             <WrapPanel HorizontalAlignment="Stretch">
                 <TextBlock Text="Начало" Width="115" Margin="10"></TextBlock>
-                <TextBox Text="{Binding DateEvent}" FontSize="16"></TextBox>
+                <TextBox FontSize="16" Name="StartEventTBox" LostFocus="StartEventTBox_LostFocus">
+                    <TextBox.Text>
+                        <MultiBinding StringFormat="{}{0:d} {1}">
+                            <Binding Path="DateEvent"></Binding>
+                            <Binding Path="StartEvent"></Binding>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
             </WrapPanel>
             <WrapPanel HorizontalAlignment="Stretch">
                 <TextBlock Text="Окончание" Width="115" Margin="10"></TextBlock>
-                <TextBox Text="{Binding DateEvent}" FontSize="16"></TextBox>
+                <TextBox FontSize="16" Name="EndEventTBox" LostFocus="EndEventTBox_LostFocus">
+                    <TextBox.Text>
+                        <MultiBinding StringFormat="{}{0:d} {1}">
+                            <Binding Path="DateEvent"></Binding>
+                            <Binding Path="EndEvent"></Binding>
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
             </WrapPanel>
             <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -40,7 +54,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Мероприятие" Width="120" Margin="10"></TextBlock>
-                <ComboBox Grid.Column="1" Width="250" DisplayMemberPath="Title" Name="TitleEventCBox" HorizontalAlignment="Left"></ComboBox>
+                <ComboBox Grid.Column="1" Width="250" DisplayMemberPath="Title" Name="TitleEventCBox" HorizontalAlignment="Left" SelectionChanged="TitleEventCBox_SelectionChanged"></ComboBox>
                 <TextBox Text="{Binding Title}" Grid.Column="1" Width="250" Name="TitleEventTBox" TextChanged="TitleEventTBox_TextChanged" HorizontalAlignment="Left"></TextBox>
             </Grid>
             <Grid HorizontalAlignment="Stretch">
@@ -51,7 +65,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Направление" Width="120" Margin="10"></TextBlock>
                 <TextBox Grid.Column="1" Width="250" Name="DirectionTBox"></TextBox>
-                <ComboBox SelectedItem="{Binding Direction}" Grid.Column="1" Width="250" DisplayMemberPath="Name" Name="DirectionCBox"></ComboBox>
+                <ComboBox SelectedItem="{Binding Direction}" Grid.Column="1" Width="250" DisplayMemberPath="Name" SelectedValuePath="Id" Name="DirectionCBox"></ComboBox>
                 <Button Grid.Column="2" Width="30" Name="AddDirectionBtn" Click="AddDirectionBtn_Click"></Button>
             </Grid>
             <Grid HorizontalAlignment="Stretch">
@@ -62,7 +76,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Город" Width="120" Margin="10"></TextBlock>
                 <TextBox Grid.Column="1" Width="250" Name="CityTBox"></TextBox>
-                <ComboBox SelectedItem="{Binding City}" Grid.Column="1" Width="250" DisplayMemberPath="Name" Name="CityCBox"></ComboBox>
+                <ComboBox SelectedItem="{Binding City}" Grid.Column="1" Width="250" DisplayMemberPath="Name" SelectedValuePath="Id" Name="CityCBox"></ComboBox>
                 <Button Grid.Column="2" Width="30" Name="AddCityBtn" Click="AddCityBtn_Click"></Button>
             </Grid>
         </StackPanel>

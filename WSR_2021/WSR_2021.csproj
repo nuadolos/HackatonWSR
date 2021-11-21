@@ -120,6 +120,9 @@
     <Compile Include="Model\Event.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\EventActivity.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Gender.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
