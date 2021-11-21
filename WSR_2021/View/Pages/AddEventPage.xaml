@@ -19,14 +19,20 @@
 
         <TextBlock Text="Добавить мероприятие" FontSize="32"></TextBlock>
 
+        <ComboBox HorizontalAlignment="Right" Name="EventCBox" DisplayMemberPath="Title"></ComboBox>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="30,10">
+            <Button Content="csv" Width="120" Name="SaveCSVBtn" Click="SaveCSVBtn_Click"></Button>
+            <Button Content="Доска" Width="120" Name="BoardBtn" Click="BoardBtn_Click"></Button>
+        </StackPanel>
+
         <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="10">
             <WrapPanel HorizontalAlignment="Stretch">
-                <TextBlock Text="Начало" Width="120" Margin="10"></TextBlock>
-                <DatePicker Text="{Binding}" FontSize="16"></DatePicker>
+                <TextBlock Text="Начало" Width="115" Margin="10"></TextBlock>
+                <TextBox Text="{Binding DateEvent}" FontSize="16"></TextBox>
             </WrapPanel>
             <WrapPanel HorizontalAlignment="Stretch">
-                <TextBlock Text="Окончание" Width="120" Margin="10"></TextBlock>
-                <DatePicker Text="{Binding}" FontSize="16"></DatePicker>
+                <TextBlock Text="Окончание" Width="115" Margin="10"></TextBlock>
+                <TextBox Text="{Binding DateEvent}" FontSize="16"></TextBox>
             </WrapPanel>
             <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -35,7 +41,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Мероприятие" Width="120" Margin="10"></TextBlock>
                 <ComboBox Grid.Column="1" Width="250" DisplayMemberPath="Title" Name="TitleEventCBox" HorizontalAlignment="Left"></ComboBox>
-                <TextBox Grid.Column="1" Width="250" Name="TitleEventTBox" TextChanged="TitleEventTBox_TextChanged" HorizontalAlignment="Left"></TextBox>
+                <TextBox Text="{Binding Title}" Grid.Column="1" Width="250" Name="TitleEventTBox" TextChanged="TitleEventTBox_TextChanged" HorizontalAlignment="Left"></TextBox>
             </Grid>
             <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
@@ -44,8 +50,8 @@
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Направление" Width="120" Margin="10"></TextBlock>
-                <ComboBox Grid.Column="1" Width="250" DisplayMemberPath="Name" Name="DirectionCBox"></ComboBox>
                 <TextBox Grid.Column="1" Width="250" Name="DirectionTBox"></TextBox>
+                <ComboBox SelectedItem="{Binding Direction}" Grid.Column="1" Width="250" DisplayMemberPath="Name" Name="DirectionCBox"></ComboBox>
                 <Button Grid.Column="2" Width="30" Name="AddDirectionBtn" Click="AddDirectionBtn_Click"></Button>
             </Grid>
             <Grid HorizontalAlignment="Stretch">
@@ -55,8 +61,8 @@
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Город" Width="120" Margin="10"></TextBlock>
-                <ComboBox Grid.Column="1" Width="250" DisplayMemberPath="Name" Name="CityCBox"></ComboBox>
                 <TextBox Grid.Column="1" Width="250" Name="CityTBox"></TextBox>
+                <ComboBox SelectedItem="{Binding City}" Grid.Column="1" Width="250" DisplayMemberPath="Name" Name="CityCBox"></ComboBox>
                 <Button Grid.Column="2" Width="30" Name="AddCityBtn" Click="AddCityBtn_Click"></Button>
             </Grid>
         </StackPanel>
@@ -75,13 +81,15 @@
             <TextBlock Grid.Column="3" Text="Жюри"></TextBlock>
         </Grid>
 
-        <DataGrid Grid.Row="3">
+        <DataGrid Grid.Row="3" Name="ActivityGrid" AutoGenerateColumns="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="120" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Width="*"></DataGridTextColumn>
-                <DataGridComboBoxColumn Width="175"></DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Width="175"></DataGridComboBoxColumn>
+                <DataGridTextColumn Binding="{Binding Title}" Width="*"></DataGridTextColumn>
+                <DataGridComboBoxColumn x:Name="TimeActCBox" Width="175"></DataGridComboBoxColumn>
+                <DataGridComboBoxColumn x:Name="JuryCBox" DisplayMemberPath="Surname" SelectedValuePath="Id" Width="175"></DataGridComboBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
+
+        <Button Content="Ок" Grid.Row="4" HorizontalAlignment="Right" Width="70" Margin="0, 0, 80, 0" Name="SaveBtn" Click="SaveBtn_Click"></Button>
     </Grid>
 </Page>

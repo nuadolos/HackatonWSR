@@ -26,6 +26,8 @@ namespace WSR_2021.Model
         }
     
         public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<Activity> Activity { get; set; }
+        public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Direction> Direction { get; set; }
         public virtual DbSet<Event> Event { get; set; }

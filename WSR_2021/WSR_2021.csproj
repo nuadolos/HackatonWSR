@@ -105,6 +105,12 @@
     <Compile Include="Model\Account.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Activity.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\City.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Country.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>

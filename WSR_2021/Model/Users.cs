@@ -18,6 +18,7 @@ namespace WSR_2021.Model
         public Users()
         {
             this.Account = new HashSet<Account>();
+            this.Activity = new HashSet<Activity>();
         }
     
         public int Id { get; set; }
@@ -33,6 +34,8 @@ namespace WSR_2021.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account> Account { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Activity> Activity { get; set; }
         public virtual Country Country { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual Role Role { get; set; }

@@ -14,13 +14,25 @@ namespace WSR_2021.Model
     
     public partial class Event
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Event()
+        {
+            this.Activity = new HashSet<Activity>();
+        }
+    
         public int Id { get; set; }
         public string Title { get; set; }
         public int DirectionId { get; set; }
+        public int CityId { get; set; }
         public System.DateTime DateEvent { get; set; }
+        public System.TimeSpan StartEvent { get; set; }
+        public System.TimeSpan EndEvent { get; set; }
         public string Description { get; set; }
         public string Logo { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Activity> Activity { get; set; }
+        public virtual City City { get; set; }
         public virtual Direction Direction { get; set; }
     }
 }
