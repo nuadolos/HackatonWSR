@@ -24,6 +24,11 @@ namespace WSR_2021.View.Pages
     public partial class AddEventPage : Page
     {
         #region Закрытые поля
+        private int addControlElement = 0;
+        private TextBox[] titleActivityTBox = new TextBox[12];
+        private ComboBox[] timeActivityCBox = new ComboBox[12];
+        private ComboBox[] juryActivityCBox = new ComboBox[12];
+        private Activity[] addNewAct = new Activity[12];
 
         private TimeSpan start = new TimeSpan();
         private TimeSpan end = new TimeSpan();
@@ -48,8 +53,7 @@ namespace WSR_2021.View.Pages
             CityCBox.ItemsSource = Transition.Context.City.ToList();
             EventCBox.ItemsSource = Transition.Context.Event.ToList();
 
-            ActivityGrid.ItemsSource = Transition.Context.Activity.ToList();
-            JuryCBox.ItemsSource = Transition.Context.Users.Where(p => p.Role.Name == "Jury").ToList();
+            CreateControlElement();
 
             DataContext = newEvent;
         }
@@ -88,18 +92,19 @@ namespace WSR_2021.View.Pages
         //С целью добавление записи в таблицу "Направление"
         private void AddDirectionBtn_Click(object sender, RoutedEventArgs e)
         {
+            CountPressingDirBtn++;
+
             if (CountPressingDirBtn % 2 == 0)
-            {
-                DirectionCBox.SelectedItem = null;
-                DirectionCBox.Visibility = Visibility.Hidden;
-            }
-            else
             {
                 DirectionTBox.Text = null;
                 DirectionCBox.Visibility = Visibility.Visible;
             }
+            else
+            {
+                DirectionCBox.SelectedItem = null;
+                DirectionCBox.Visibility = Visibility.Hidden;
+            }
 
-            CountPressingDirBtn++;
             if (CountPressingDirBtn == 10)
                 CountPressingDirBtn = 0;
         }
@@ -107,18 +112,19 @@ namespace WSR_2021.View.Pages
         //С целью добавление записи в таблицу "Город"
         private void AddCityBtn_Click(object sender, RoutedEventArgs e)
         {
+            CountPressingCityBtn++;
+
             if (CountPressingCityBtn % 2 == 0)
-            {
-                CityCBox.SelectedItem = null;
-                CityCBox.Visibility = Visibility.Hidden;
-            }
-            else
             {
                 CityTBox.Text = null;
                 CityCBox.Visibility = Visibility.Visible;
             }
+            else
+            {
+                CityCBox.SelectedItem = null;
+                CityCBox.Visibility = Visibility.Hidden;
+            }
 
-            CountPressingCityBtn++;
             if (CountPressingCityBtn == 10)
                 CountPressingCityBtn = 0;
         }
@@ -132,7 +138,11 @@ namespace WSR_2021.View.Pages
             try
             {
                 start = TimeSpan.Parse(StartEventTBox.Text.Split(' ')[1]);
-                TimeActCBox.ItemsSource = ListTimeEvent(start, end);
+
+                foreach (var item in timeActivityCBox)
+                {
+                    item.ItemsSource = ListTimeEvent(start, end);
+                }
             }
             catch (Exception)
             {
@@ -145,7 +155,11 @@ namespace WSR_2021.View.Pages
             try
             {
                 end = TimeSpan.Parse(EndEventTBox.Text.Split(' ')[1]);
-                TimeActCBox.ItemsSource = ListTimeEvent(start, end);
+
+                foreach (var item in timeActivityCBox)
+                {
+                    item.ItemsSource = ListTimeEvent(start, end);
+                }
             }
             catch (Exception)
             {
@@ -179,6 +193,11 @@ namespace WSR_2021.View.Pages
 
             try
             {
+                if (StartEventTBox.Text.Split(' ')[0] == EndEventTBox.Text.Split(' ')[0])
+                    newEvent.DateEvent = DateTime.Parse(StartEventTBox.Text.Split(' ')[0]);
+                else
+                    error.AppendLine("Даты должны совпадать");
+
                 newEvent.StartEvent = TimeSpan.Parse(StartEventTBox.Text.Split(' ')[1]);
                 newEvent.EndEvent = TimeSpan.Parse(EndEventTBox.Text.Split(' ')[1]);
             }
@@ -193,31 +212,65 @@ namespace WSR_2021.View.Pages
 
             if (CountPressingDirBtn % 2 == 0)
             {
+                if (newEvent.Direction.Name == null)
+                    error.AppendLine("Выберите направление");
+            }
+            else
+            {
                 if (string.IsNullOrWhiteSpace(DirectionTBox.Text))
                     error.AppendLine("Укажите направление");
                 else
                     newDrirection.Name = DirectionTBox.Text;
             }
-            else
-            {
-                if (DirectionCBox.SelectedItem == null)
-                    error.AppendLine("Выберите направление");
-            }
             if (CountPressingCityBtn % 2 == 0)
+            {
+                if (newEvent.City.Name == null)
+                    error.AppendLine("Выберите город");
+            }
+            else
             {
                 if (string.IsNullOrWhiteSpace(CityTBox.Text))
                     error.AppendLine("Укажите город");
                 else
                     newDrirection.Name = CityTBox.Text;
             }
-            else
+
+            AddItemActivity();
+
+            if (error.Length > 0)
             {
-                if (CityCBox.SelectedItem == null)
-                    error.AppendLine("Выберите город");
+                MessageBox.Show($"При сохранении возникли следующие ошибки:\n{error}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
-            //Реализовать добавление активностей без помощи DataGrid
-            //Возможно понадобится метод добавления элементов управления, выполняющийся после кнопки "+"
+            if (newEvent.Id == 0)
+            {
+                foreach (var item in addNewAct)
+                {
+                    if (item != null)
+                    {
+                        EventActivity evAct = new EventActivity()
+                        {
+                            EventId = 0,
+                            ActivityId = item.Id
+                        };
+
+                        Transition.Context.EventActivity.Add(evAct);
+                    } 
+                }
+
+                Transition.Context.Event.Add(newEvent);
+            }
+
+            try
+            {
+                Transition.Context.SaveChanges();
+                MessageBox.Show("Данные сохранены", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show($"При сохранении данных произошла ошибка: {er.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         #endregion
@@ -234,7 +287,7 @@ namespace WSR_2021.View.Pages
                 using (StreamWriter csvFile = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write), Encoding.UTF8))
                 {
                     csvFile.WriteLine("Название;Направление;Город;Дата мероприятия;Начало;Окончание;Описание");
-                    csvFile.WriteLine($"{eventWrite.Title};{eventWrite.Direction.Name};{eventWrite.City.Name};{eventWrite.DateEvent};" +
+                    csvFile.WriteLine($"{eventWrite.Title};{eventWrite.Direction.Name};{eventWrite.City.Name};{eventWrite.DateEvent.ToShortDateString()};" +
                         $"{eventWrite.StartEvent};{eventWrite.EndEvent};{eventWrite.Description}");
                 }
                 MessageBox.Show("Файл сохранен", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -253,5 +306,55 @@ namespace WSR_2021.View.Pages
         }
 
         #endregion
+
+        private void AddActBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CreateControlElement();
+        }
+
+        private void CreateControlElement()
+        {
+            if (addControlElement < addNewAct.Length)
+            {
+                titleActivityTBox[addControlElement] = new TextBox() { Width = 360 };
+                timeActivityCBox[addControlElement] = new ComboBox() { Width = 150, Margin = new Thickness(20, 0, 15, 0), ItemsSource = ListTimeEvent(start, end) };
+                juryActivityCBox[addControlElement] = new ComboBox() { Width = 150, DisplayMemberPath = "Surname", ItemsSource = Transition.Context.Users.Where(p => p.Role.Name == "Jury").ToList() };
+
+                WrapPanel ActivityWrapP = new WrapPanel() { HorizontalAlignment = HorizontalAlignment.Stretch };
+
+                ActivityWrapP.Children.Add(titleActivityTBox[addControlElement]);
+                ActivityWrapP.Children.Add(timeActivityCBox[addControlElement]);
+                ActivityWrapP.Children.Add(juryActivityCBox[addControlElement]);
+
+                ActivityLV.Items.Add(ActivityWrapP);
+
+                addControlElement++;
+            }
+            else
+                MessageBox.Show("Количество активностей превышает норму", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void AddItemActivity()
+        {
+            try
+            {
+                for (int i = 0; i < addControlElement; i++)
+                {
+                    addNewAct[i] = new Activity();
+
+                    addNewAct[i].Title = titleActivityTBox[i].Text;
+                    addNewAct[i].TimeActivity = TimeSpan.Parse(timeActivityCBox[i].SelectedValue.ToString());
+                    addNewAct[i].JuryId = (juryActivityCBox[i].SelectedItem as Users).Id;
+
+                    Transition.Context.Activity.Add(addNewAct[i]);
+                }
+
+                Transition.Context.SaveChanges();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show($"При добавлении активностей произошла ошибка: {er.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

@@ -19,7 +19,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="TimeActivity" Type="int" Nullable="false" />
+          <Property Name="TimeActivity" Type="time" Precision="7" Nullable="false" />
           <Property Name="JuryId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="City">
@@ -348,7 +348,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TimeActivity" Type="Int32" Nullable="false" />
+          <Property Name="TimeActivity" Type="Time" Nullable="false" Precision="7" />
           <Property Name="JuryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="HackatonWSRModel.FK_Activity_Users" FromRole="Activity" ToRole="Users" />
           <NavigationProperty Name="EventActivity" Relationship="HackatonWSRModel.FK_EventActivity_Activity" FromRole="Activity" ToRole="EventActivity" />

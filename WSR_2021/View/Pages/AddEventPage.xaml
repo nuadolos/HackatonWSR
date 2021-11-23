@@ -81,29 +81,33 @@
             </Grid>
         </StackPanel>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.RowSpan="2" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="175"/>
                 <ColumnDefinition Width="175"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
 
-            <TextBlock Text="Активности"></TextBlock>
-            <TextBlock Grid.Column="1" Text="Наименование"></TextBlock>
-            <TextBlock Grid.Column="2" Text="Время"></TextBlock>
-            <TextBlock Grid.Column="3" Text="Жюри"></TextBlock>
+            <TextBlock Text="Активности" VerticalAlignment="Top" Margin="0, 5"></TextBlock>
+            <TextBlock Grid.Column="1" Text="Наименование" VerticalAlignment="Top" Margin="0, 5"></TextBlock>
+            <TextBlock Grid.Column="2" Text="Время" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20, 5"></TextBlock>
+            <TextBlock Grid.Column="3" Text="Жюри" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20, 5"></TextBlock>
+
+            <ListView Grid.Column="1" Grid.Row="111" Grid.ColumnSpan="3" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" Name="ActivityLV">
+                <!--<WrapPanel HorizontalAlignment="Stretch">
+                    <TextBox Name="TitleActTBox" Width="360"></TextBox>
+                    <ComboBox x:Name="TimeActCBox" Width="150" Margin="20, 0, 15, 0"></ComboBox>
+                    <ComboBox x:Name="JuryCBox" Width="150" DisplayMemberPath="Surname" SelectedValuePath="Id"></ComboBox>
+                </WrapPanel>-->
+            </ListView>
         </Grid>
 
-        <DataGrid Grid.Row="3" Name="ActivityGrid" AutoGenerateColumns="False" CanUserDeleteRows="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Width="120" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Title}" Width="*"></DataGridTextColumn>
-                <DataGridComboBoxColumn x:Name="TimeActCBox" Width="175"></DataGridComboBoxColumn>
-                <DataGridComboBoxColumn x:Name="JuryCBox" DisplayMemberPath="Surname" SelectedValuePath="Id" Width="175"></DataGridComboBoxColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-
         <Button Content="Ок" Grid.Row="4" HorizontalAlignment="Right" Width="70" Margin="0, 0, 80, 0" Name="SaveBtn" Click="SaveBtn_Click"></Button>
+        <Button Content="+" Grid.Row="4" HorizontalAlignment="Left" Width="40" Margin="200, 0, 0, 0" Name="AddActBtn" Click="AddActBtn_Click"></Button>
     </Grid>
 </Page>
