@@ -100,8 +100,9 @@
           <Property Name="Middlename" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="GenderId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
-          <Property Name="Birthday" Type="date" Nullable="false" />
-          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="EventId" Type="int" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="CountryId" Type="int" />
           <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
@@ -190,7 +191,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Users_Country">
-          <End Role="Country" Type="Self.Country" Multiplicity="1">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -200,6 +201,18 @@
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -271,6 +284,10 @@
             <End Role="Country" EntitySet="Country" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Event1" Association="Self.FK_Users_Event1">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Gender" Association="Self.FK_Users_Gender">
             <End Role="Gender" EntitySet="Gender" />
             <End Role="Users" EntitySet="Users" />
@@ -323,6 +340,10 @@
           <AssociationSet Name="FK_EventActivity_Event" Association="HackatonWSRModel.FK_EventActivity_Event">
             <End Role="Event" EntitySet="Event" />
             <End Role="EventActivity" EntitySet="EventActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Event1" Association="HackatonWSRModel.FK_Users_Event1">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Gender" Association="HackatonWSRModel.FK_Users_Gender">
             <End Role="Gender" EntitySet="Gender" />
@@ -393,6 +414,7 @@
           <NavigationProperty Name="City" Relationship="HackatonWSRModel.FK_Event_City" FromRole="Event" ToRole="City" />
           <NavigationProperty Name="Direction" Relationship="HackatonWSRModel.FK_Event_Direction" FromRole="Event" ToRole="Direction" />
           <NavigationProperty Name="EventActivity" Relationship="HackatonWSRModel.FK_EventActivity_Event" FromRole="Event" ToRole="EventActivity" />
+          <NavigationProperty Name="Users" Relationship="HackatonWSRModel.FK_Users_Event1" FromRole="Event" ToRole="Users" />
         </EntityType>
         <EntityType Name="EventActivity">
           <Key>
@@ -441,13 +463,15 @@
           <Property Name="Middlename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GenderId" Type="Int32" Nullable="false" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="CountryId" Type="Int32" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Account" Relationship="HackatonWSRModel.FK_Account_Users" FromRole="Users" ToRole="Account" />
           <NavigationProperty Name="Activity" Relationship="HackatonWSRModel.FK_Activity_Users" FromRole="Users" ToRole="Activity" />
           <NavigationProperty Name="Country" Relationship="HackatonWSRModel.FK_Users_Country" FromRole="Users" ToRole="Country" />
+          <NavigationProperty Name="Event" Relationship="HackatonWSRModel.FK_Users_Event1" FromRole="Users" ToRole="Event" />
           <NavigationProperty Name="Gender" Relationship="HackatonWSRModel.FK_Users_Gender" FromRole="Users" ToRole="Gender" />
           <NavigationProperty Name="Role" Relationship="HackatonWSRModel.FK_Users_Role" FromRole="Users" ToRole="Role" />
         </EntityType>
@@ -508,7 +532,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Users_Country">
-          <End Type="HackatonWSRModel.Country" Role="Country" Multiplicity="1">
+          <End Type="HackatonWSRModel.Country" Role="Country" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
           <End Type="HackatonWSRModel.Users" Role="Users" Multiplicity="*" />
@@ -545,6 +569,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EventActivity">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Event1">
+          <End Type="HackatonWSRModel.Event" Role="Event" Multiplicity="0..1" />
+          <End Type="HackatonWSRModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
               <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
@@ -684,6 +720,7 @@
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="GenderId" ColumnName="GenderId" />
                 <ScalarProperty Name="Middlename" ColumnName="Middlename" />

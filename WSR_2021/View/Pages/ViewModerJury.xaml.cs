@@ -51,6 +51,7 @@ namespace WSR_2021.View.Pages
 
         #region Сортировка и фильтрация ModerJuryGrid
 
+        //Переделать сортировку по мероприятиям
         private void UpdateModerJuryGrid()
         {
             var tempData = listModerJury;
@@ -88,7 +89,7 @@ namespace WSR_2021.View.Pages
 
         private void RegBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Transition.MainFrame.Navigate(new RegistrationModerJury());
         }
 
         #endregion

@@ -18,6 +18,7 @@ namespace WSR_2021.Model
         public Event()
         {
             this.EventActivity = new HashSet<EventActivity>();
+            this.Users = new HashSet<Users>();
         }
     
         public int Id { get; set; }
@@ -34,5 +35,7 @@ namespace WSR_2021.Model
         public virtual Direction Direction { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventActivity> EventActivity { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Users> Users { get; set; }
     }
 }

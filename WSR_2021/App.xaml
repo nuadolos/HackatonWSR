@@ -25,6 +25,7 @@
             <Setter Property="Height" Value="30"></Setter>
             <Setter Property="Margin" Value="10"></Setter>
             <Setter Property="Padding" Value="0, 5"></Setter>
+            <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"></Setter>
         </Style>
 
         <Style TargetType="ComboBox">

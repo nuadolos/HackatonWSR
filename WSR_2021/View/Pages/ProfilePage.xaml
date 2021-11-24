@@ -61,7 +61,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
-            <Image Source="/View/Picture/s-F4iTxVzYg.jpg" Width="150" Height="200" Margin="50, 30" HorizontalAlignment="Right"></Image>
+            <Image Source="/View/Picture/s-F4iTxVzYg.jpg" Width="200" Height="200" Margin="50, 30" HorizontalAlignment="Right"></Image>
             <CheckBox Content="Смена пароля" HorizontalAlignment="Center" Margin="5" Name="ChangeCheck" Checked="ChangeCheck_Checked" Unchecked="ChangeCheck_Unchecked"></CheckBox>
             <Grid>
                 <Grid.ColumnDefinitions>

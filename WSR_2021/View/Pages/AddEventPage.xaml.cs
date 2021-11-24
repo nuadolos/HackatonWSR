@@ -277,6 +277,7 @@ namespace WSR_2021.View.Pages
             {
                 Transition.Context.SaveChanges();
                 MessageBox.Show("Данные сохранены", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                Transition.MainFrame.GoBack();
             }
             catch (Exception er)
             {
