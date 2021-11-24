@@ -90,6 +90,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Pages\ViewModerJury.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Windows\FrameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,6 +172,9 @@
     </Compile>
     <Compile Include="View\Pages\ViewEventPage.xaml.cs">
       <DependentUpon>ViewEventPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ViewModerJury.xaml.cs">
+      <DependentUpon>ViewModerJury.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\FrameWindow.xaml.cs">
       <DependentUpon>FrameWindow.xaml</DependentUpon>

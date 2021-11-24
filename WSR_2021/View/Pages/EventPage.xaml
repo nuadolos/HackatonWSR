@@ -28,16 +28,16 @@
 
         <DataGrid Grid.Row="1" AutoGenerateColumns="False" Name="EventGrid" IsReadOnly="True" MouseDoubleClick="EventGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Логотип">
+                <DataGridTemplateColumn Header="Логотип" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="/View/Picture/s-F4iTxVzYg.jpg" Width="100" Height="100"></Image>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Наименование мероприятия" Binding="{Binding Title}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Направление" Binding="{Binding Direction.Name}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Дата" Binding="{Binding DateEvent, StringFormat=d}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Наименование мероприятия" Binding="{Binding Title}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Направление" Binding="{Binding Direction.Name}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата" Binding="{Binding DateEvent, StringFormat=d}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 

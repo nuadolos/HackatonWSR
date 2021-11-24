@@ -23,7 +23,18 @@ namespace WSR_2021.View.Pages
     /// </summary>
     public partial class AddEventPage : Page
     {
+
+        /* На данной странице необходимо доделать следующее:
+         * 1. Реализовать переход на страницу с kanban-доской
+         * 2. Реализовать подсказки с указанием на ошибку (Активности)
+         * 3. Реализовать добавление в таблицу вводимые направления и города
+         * 4. Дополнительно! Обработать исключение, связанное с TitleEventCBox
+         * 5. Протестировать работу переключения выпадающего списка на поля для ввода и наоборот
+         * 6. Обработать свойство Title, для избежания знаков, которые нельзя использовать для названия файла, класса Event при сохранении .csv файла
+        */
+
         #region Закрытые поля
+
         private int addControlElement = 0;
         private TextBox[] titleActivityTBox = new TextBox[12];
         private ComboBox[] timeActivityCBox = new ComboBox[12];
@@ -273,6 +284,32 @@ namespace WSR_2021.View.Pages
             }
         }
 
+        /// <summary>
+        /// Метод AddItemActivity, отвечающий за добавление новых экземляров класса Activity в таблицу Activity
+        /// </summary>
+        private void AddItemActivity()
+        {
+            try
+            {
+                for (int i = 0; i < addControlElement; i++)
+                {
+                    addNewAct[i] = new Activity();
+
+                    addNewAct[i].Title = titleActivityTBox[i].Text;
+                    addNewAct[i].TimeActivity = TimeSpan.Parse(timeActivityCBox[i].SelectedValue.ToString());
+                    addNewAct[i].JuryId = (juryActivityCBox[i].SelectedItem as Users).Id;
+
+                    Transition.Context.Activity.Add(addNewAct[i]);
+                }
+
+                Transition.Context.SaveChanges();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show($"При добавлении активностей произошла ошибка: {er.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         #endregion
 
         #region Сохранение выбраного мероприятия в выпадающем списке в файл с расширением .csv
@@ -307,6 +344,8 @@ namespace WSR_2021.View.Pages
 
         #endregion
 
+        #region Добавление элементов управления при нажатии на кнопку "+"
+
         private void AddActBtn_Click(object sender, RoutedEventArgs e)
         {
             CreateControlElement();
@@ -334,27 +373,6 @@ namespace WSR_2021.View.Pages
                 MessageBox.Show("Количество активностей превышает норму", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void AddItemActivity()
-        {
-            try
-            {
-                for (int i = 0; i < addControlElement; i++)
-                {
-                    addNewAct[i] = new Activity();
-
-                    addNewAct[i].Title = titleActivityTBox[i].Text;
-                    addNewAct[i].TimeActivity = TimeSpan.Parse(timeActivityCBox[i].SelectedValue.ToString());
-                    addNewAct[i].JuryId = (juryActivityCBox[i].SelectedItem as Users).Id;
-
-                    Transition.Context.Activity.Add(addNewAct[i]);
-                }
-
-                Transition.Context.SaveChanges();
-            }
-            catch (Exception er)
-            {
-                MessageBox.Show($"При добавлении активностей произошла ошибка: {er.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        #endregion
     }
 }

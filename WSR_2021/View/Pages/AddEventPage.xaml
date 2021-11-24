@@ -98,13 +98,7 @@
             <TextBlock Grid.Column="2" Text="Время" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20, 5"></TextBlock>
             <TextBlock Grid.Column="3" Text="Жюри" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20, 5"></TextBlock>
 
-            <ListView Grid.Column="1" Grid.Row="111" Grid.ColumnSpan="3" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" Name="ActivityLV">
-                <!--<WrapPanel HorizontalAlignment="Stretch">
-                    <TextBox Name="TitleActTBox" Width="360"></TextBox>
-                    <ComboBox x:Name="TimeActCBox" Width="150" Margin="20, 0, 15, 0"></ComboBox>
-                    <ComboBox x:Name="JuryCBox" Width="150" DisplayMemberPath="Surname" SelectedValuePath="Id"></ComboBox>
-                </WrapPanel>-->
-            </ListView>
+            <ListView Grid.Column="1" Grid.Row="111" Grid.ColumnSpan="3" ScrollViewer.VerticalScrollBarVisibility="Visible" HorizontalAlignment="Stretch" Name="ActivityLV"></ListView>
         </Grid>
 
         <Button Content="Ок" Grid.Row="4" HorizontalAlignment="Right" Width="70" Margin="0, 0, 80, 0" Name="SaveBtn" Click="SaveBtn_Click"></Button>

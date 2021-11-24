@@ -80,7 +80,7 @@ namespace WSR_2021.View.Pages
 
         private void JuryBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+            Transition.MainFrame.Navigate(new ViewModerJury());
         }
 
         #endregion
