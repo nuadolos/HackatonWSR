@@ -85,7 +85,7 @@ namespace WSR_2021.View.Pages
 
         #endregion
 
-        #region Переход на страницу
+        #region Переход на страницу регистрации пользователя RegistrationModerJury
 
         private void RegBtn_Click(object sender, RoutedEventArgs e)
         {

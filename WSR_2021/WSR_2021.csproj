@@ -78,6 +78,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Pages\ModeratorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Pages\OrganizerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -167,6 +171,9 @@
     </Compile>
     <Compile Include="View\Pages\EventPage.xaml.cs">
       <DependentUpon>EventPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\ModeratorPage.xaml.cs">
+      <DependentUpon>ModeratorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\OrganizerPage.xaml.cs">
       <DependentUpon>OrganizerPage.xaml</DependentUpon>

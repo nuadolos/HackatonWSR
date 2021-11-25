@@ -1,0 +1,50 @@
+﻿<Page x:Class="WSR_2021.View.Pages.ModeratorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WSR_2021.View.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="ModeratorPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="10">
+            <TextBlock Text="Окно модератора" FontWeight="Bold" FontSize="30"></TextBlock>
+            <TextBlock Name="WelcomeText" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="10" TextAlignment="Center" FontSize="24">Добрый вечер!<LineBreak/>Mr Имя</TextBlock>
+        </StackPanel>
+        <Button HorizontalAlignment="Right" Margin="15" Height="45" Name="MyActivityBtn" Click="MyActivityBtn_Click">
+            <Button.Content>
+                <TextBlock TextAlignment="Center">Мои<LineBreak/>активности</TextBlock>
+            </Button.Content>
+        </Button>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="10">
+            <WrapPanel>
+                <TextBlock Text="Направление" Width="110" TextAlignment="Left"></TextBlock>
+                <ComboBox Name="DirectionCBox" Width="250" SelectionChanged="DirectionCBox_SelectionChanged" DisplayMemberPath="Name"></ComboBox>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Text="Мероприятие" Width="110" TextAlignment="Left"></TextBlock>
+                <ComboBox Name="EventCBox" Width="250" DisplayMemberPath="Title" SelectionChanged="EventCBox_SelectionChanged"></ComboBox>
+            </WrapPanel>
+        </StackPanel>
+
+        <DataGrid Grid.Row="2" Name="ActivityGrid" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Активности"  Width="*" Binding="{Binding Activity.Title}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Event.DateEvent}" Width="175"></DataGridTextColumn>
+                <DataGridTextColumn Header="Время" Binding="{Binding Activity.TimeActivity}" Width="175"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Content="Подать заявку" Grid.Row="3" Margin="15, 0" HorizontalAlignment="Right" Name="RequestBtn" Click="RequestBtn_Click"></Button>
+    </Grid>
+</Page>

@@ -31,12 +31,12 @@ namespace WSR_2021.View.Pages
 
         #region Конструктор страницы OrganizerPage
 
-        public OrganizerPage(Users transferUser, Account transferAccount)
+        public OrganizerPage(Account transferAccount)
         {
             InitializeComponent();
 
-            tempUser = transferUser;
             tempAccount = transferAccount;
+            tempUser = Transition.Context.Users.FirstOrDefault(p => p.Id == transferAccount.NumberId);
 
             //Формирование текста приветствия пользователя в WelcomeText
 

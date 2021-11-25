@@ -114,7 +114,22 @@ namespace WSR_2021.View.Pages
 
                     MessageBox.Show($"Добро пожаловать, {visitingUser.Users.Surname} {visitingUser.Users.Name} {visitingUser.Users.Middlename}!", "Вход в систему", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    Transition.MainFrame.Navigate(new OrganizerPage(Transition.Context.Users.FirstOrDefault(p => p.Id == visitingUser.NumberId), visitingUser));
+                    string roleUser = visitingUser.Users.Role.Name;
+                    switch (roleUser)
+                    {
+                        case "Participant":
+
+                            break;
+                        case "Organizer":
+                            Transition.MainFrame.Navigate(new OrganizerPage(visitingUser));
+                            break;
+                        case "Moderator":
+                            Transition.MainFrame.Navigate(new ModeratorPage(visitingUser));
+                            break;
+                        case "Jury":
+
+                            break;
+                    }
                 }
                 else
                 {
