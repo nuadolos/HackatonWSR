@@ -22,6 +22,24 @@
           <Property Name="TimeActivity" Type="time" Precision="7" Nullable="false" />
           <Property Name="JuryId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ActivityDocument">
+          <Key>
+            <PropertyRef Name="ActivityId" />
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="ActivityId" Type="int" Nullable="false" />
+          <Property Name="DocumentId" Type="int" Nullable="false" />
+          <Property Name="Nothing" Type="nvarchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="ActivityParticipant">
+          <Key>
+            <PropertyRef Name="ActivityId" />
+            <PropertyRef Name="ParticipantId" />
+          </Key>
+          <Property Name="ActivityId" Type="int" Nullable="false" />
+          <Property Name="ParticipantId" Type="int" Nullable="false" />
+          <Property Name="Nothing" Type="nvarchar" MaxLength="5" />
+        </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="Id" />
@@ -42,6 +60,14 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Resource" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -131,6 +157,60 @@
             </Principal>
             <Dependent Role="Activity">
               <PropertyRef Name="JuryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityDocument_Activity">
+          <End Role="Activity" Type="Self.Activity" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ActivityDocument" Type="Self.ActivityDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityDocument">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityDocument_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ActivityDocument" Type="Self.ActivityDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityDocument">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityParticipant_Activity">
+          <End Role="Activity" Type="Self.Activity" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ActivityParticipant" Type="Self.ActivityParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityParticipant">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityParticipant_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ActivityParticipant" Type="Self.ActivityParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityParticipant">
+              <PropertyRef Name="ParticipantId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -247,9 +327,12 @@
         <EntityContainer Name="Хранилище HackatonWSRModelContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActivityDocument" EntityType="Self.ActivityDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActivityParticipant" EntityType="Self.ActivityParticipant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Direction" EntityType="Self.Direction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventActivity" EntityType="Self.EventActivity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
@@ -263,6 +346,22 @@
           <AssociationSet Name="FK_Activity_Users" Association="Self.FK_Activity_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityDocument_Activity" Association="Self.FK_ActivityDocument_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="ActivityDocument" EntitySet="ActivityDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityDocument_Document" Association="Self.FK_ActivityDocument_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="ActivityDocument" EntitySet="ActivityDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityParticipant_Activity" Association="Self.FK_ActivityParticipant_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="ActivityParticipant" EntitySet="ActivityParticipant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityParticipant_Users" Association="Self.FK_ActivityParticipant_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ActivityParticipant" EntitySet="ActivityParticipant" />
           </AssociationSet>
           <AssociationSet Name="FK_Event_City" Association="Self.FK_Event_City">
             <End Role="City" EntitySet="City" />
@@ -304,9 +403,12 @@
         <EntityContainer Name="HackatonWSREntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Account" EntityType="HackatonWSRModel.Account" />
           <EntitySet Name="Activity" EntityType="HackatonWSRModel.Activity" />
+          <EntitySet Name="ActivityDocument" EntityType="HackatonWSRModel.ActivityDocument" />
+          <EntitySet Name="ActivityParticipant" EntityType="HackatonWSRModel.ActivityParticipant" />
           <EntitySet Name="City" EntityType="HackatonWSRModel.City" />
           <EntitySet Name="Country" EntityType="HackatonWSRModel.Country" />
           <EntitySet Name="Direction" EntityType="HackatonWSRModel.Direction" />
+          <EntitySet Name="Document" EntityType="HackatonWSRModel.Document" />
           <EntitySet Name="Event" EntityType="HackatonWSRModel.Event" />
           <EntitySet Name="EventActivity" EntityType="HackatonWSRModel.EventActivity" />
           <EntitySet Name="Gender" EntityType="HackatonWSRModel.Gender" />
@@ -321,9 +423,25 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Activity" EntitySet="Activity" />
           </AssociationSet>
+          <AssociationSet Name="FK_ActivityDocument_Activity" Association="HackatonWSRModel.FK_ActivityDocument_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="ActivityDocument" EntitySet="ActivityDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityParticipant_Activity" Association="HackatonWSRModel.FK_ActivityParticipant_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="ActivityParticipant" EntitySet="ActivityParticipant" />
+          </AssociationSet>
           <AssociationSet Name="FK_EventActivity_Activity" Association="HackatonWSRModel.FK_EventActivity_Activity">
             <End Role="Activity" EntitySet="Activity" />
             <End Role="EventActivity" EntitySet="EventActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityDocument_Document" Association="HackatonWSRModel.FK_ActivityDocument_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="ActivityDocument" EntitySet="ActivityDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ActivityParticipant_Users" Association="HackatonWSRModel.FK_ActivityParticipant_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ActivityParticipant" EntitySet="ActivityParticipant" />
           </AssociationSet>
           <AssociationSet Name="FK_Event_City" Association="HackatonWSRModel.FK_Event_City">
             <End Role="City" EntitySet="City" />
@@ -372,7 +490,31 @@
           <Property Name="TimeActivity" Type="Time" Nullable="false" Precision="7" />
           <Property Name="JuryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="HackatonWSRModel.FK_Activity_Users" FromRole="Activity" ToRole="Users" />
+          <NavigationProperty Name="ActivityDocument" Relationship="HackatonWSRModel.FK_ActivityDocument_Activity" FromRole="Activity" ToRole="ActivityDocument" />
+          <NavigationProperty Name="ActivityParticipant" Relationship="HackatonWSRModel.FK_ActivityParticipant_Activity" FromRole="Activity" ToRole="ActivityParticipant" />
           <NavigationProperty Name="EventActivity" Relationship="HackatonWSRModel.FK_EventActivity_Activity" FromRole="Activity" ToRole="EventActivity" />
+        </EntityType>
+        <EntityType Name="ActivityDocument">
+          <Key>
+            <PropertyRef Name="ActivityId" />
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="ActivityId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentId" Type="Int32" Nullable="false" />
+          <Property Name="Nothing" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Activity" Relationship="HackatonWSRModel.FK_ActivityDocument_Activity" FromRole="ActivityDocument" ToRole="Activity" />
+          <NavigationProperty Name="Document" Relationship="HackatonWSRModel.FK_ActivityDocument_Document" FromRole="ActivityDocument" ToRole="Document" />
+        </EntityType>
+        <EntityType Name="ActivityParticipant">
+          <Key>
+            <PropertyRef Name="ActivityId" />
+            <PropertyRef Name="ParticipantId" />
+          </Key>
+          <Property Name="ActivityId" Type="Int32" Nullable="false" />
+          <Property Name="ParticipantId" Type="Int32" Nullable="false" />
+          <Property Name="Nothing" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Activity" Relationship="HackatonWSRModel.FK_ActivityParticipant_Activity" FromRole="ActivityParticipant" ToRole="Activity" />
+          <NavigationProperty Name="Users" Relationship="HackatonWSRModel.FK_ActivityParticipant_Users" FromRole="ActivityParticipant" ToRole="Users" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -397,6 +539,15 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Event" Relationship="HackatonWSRModel.FK_Event_Direction" FromRole="Direction" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Resource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ActivityDocument" Relationship="HackatonWSRModel.FK_ActivityDocument_Document" FromRole="Document" ToRole="ActivityDocument" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -470,6 +621,7 @@
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Account" Relationship="HackatonWSRModel.FK_Account_Users" FromRole="Users" ToRole="Account" />
           <NavigationProperty Name="Activity" Relationship="HackatonWSRModel.FK_Activity_Users" FromRole="Users" ToRole="Activity" />
+          <NavigationProperty Name="ActivityParticipant" Relationship="HackatonWSRModel.FK_ActivityParticipant_Users" FromRole="Users" ToRole="ActivityParticipant" />
           <NavigationProperty Name="Country" Relationship="HackatonWSRModel.FK_Users_Country" FromRole="Users" ToRole="Country" />
           <NavigationProperty Name="Event" Relationship="HackatonWSRModel.FK_Users_Event1" FromRole="Users" ToRole="Event" />
           <NavigationProperty Name="Gender" Relationship="HackatonWSRModel.FK_Users_Gender" FromRole="Users" ToRole="Gender" />
@@ -503,6 +655,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ActivityDocument_Activity">
+          <End Type="HackatonWSRModel.Activity" Role="Activity" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HackatonWSRModel.ActivityDocument" Role="ActivityDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityDocument">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityParticipant_Activity">
+          <End Type="HackatonWSRModel.Activity" Role="Activity" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HackatonWSRModel.ActivityParticipant" Role="ActivityParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityParticipant">
+              <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EventActivity_Activity">
           <End Type="HackatonWSRModel.Activity" Role="Activity" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -514,6 +694,32 @@
             </Principal>
             <Dependent Role="EventActivity">
               <PropertyRef Name="ActivityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityDocument_Document">
+          <End Type="HackatonWSRModel.Document" Role="Document" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HackatonWSRModel.ActivityDocument" Role="ActivityDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityDocument">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ActivityParticipant_Users">
+          <End Type="HackatonWSRModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="HackatonWSRModel.ActivityParticipant" Role="ActivityParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ActivityParticipant">
+              <PropertyRef Name="ParticipantId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -638,6 +844,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ActivityDocument">
+            <EntityTypeMapping TypeName="HackatonWSRModel.ActivityDocument">
+              <MappingFragment StoreEntitySet="ActivityDocument">
+                <ScalarProperty Name="Nothing" ColumnName="Nothing" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+                <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActivityParticipant">
+            <EntityTypeMapping TypeName="HackatonWSRModel.ActivityParticipant">
+              <MappingFragment StoreEntitySet="ActivityParticipant">
+                <ScalarProperty Name="Nothing" ColumnName="Nothing" />
+                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+                <ScalarProperty Name="ActivityId" ColumnName="ActivityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="City">
             <EntityTypeMapping TypeName="HackatonWSRModel.City">
               <MappingFragment StoreEntitySet="City">
@@ -657,6 +881,15 @@
           <EntitySetMapping Name="Direction">
             <EntityTypeMapping TypeName="HackatonWSRModel.Direction">
               <MappingFragment StoreEntitySet="Direction">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Document">
+            <EntityTypeMapping TypeName="HackatonWSRModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="Resource" ColumnName="Resource" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -114,7 +114,7 @@ namespace WSR_2021.View.Pages
         //Переход на страницу MyActivityPage
         private void MyActivityBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Transition.MainFrame.Navigate(new MyActivityPage(user));
         }
 
         #endregion

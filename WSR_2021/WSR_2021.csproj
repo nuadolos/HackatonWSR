@@ -82,6 +82,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Pages\MyActivityPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Pages\OrganizerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +124,12 @@
     <Compile Include="Model\Activity.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\ActivityDocument.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ActivityParticipant.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\City.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
@@ -127,6 +137,9 @@
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Direction.cs">
+      <DependentUpon>HackatonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Document.cs">
       <DependentUpon>HackatonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Event.cs">
@@ -174,6 +187,9 @@
     </Compile>
     <Compile Include="View\Pages\ModeratorPage.xaml.cs">
       <DependentUpon>ModeratorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\MyActivityPage.xaml.cs">
+      <DependentUpon>MyActivityPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\OrganizerPage.xaml.cs">
       <DependentUpon>OrganizerPage.xaml</DependentUpon>

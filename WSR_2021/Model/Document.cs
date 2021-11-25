@@ -12,27 +12,19 @@ namespace WSR_2021.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Activity
+    public partial class Document
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Activity()
+        public Document()
         {
             this.ActivityDocument = new HashSet<ActivityDocument>();
-            this.ActivityParticipant = new HashSet<ActivityParticipant>();
-            this.EventActivity = new HashSet<EventActivity>();
         }
     
         public int Id { get; set; }
-        public string Title { get; set; }
-        public System.TimeSpan TimeActivity { get; set; }
-        public int JuryId { get; set; }
+        public string Name { get; set; }
+        public string Resource { get; set; }
     
-        public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ActivityDocument> ActivityDocument { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ActivityParticipant> ActivityParticipant { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EventActivity> EventActivity { get; set; }
     }
 }

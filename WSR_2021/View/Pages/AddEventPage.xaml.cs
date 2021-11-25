@@ -36,10 +36,10 @@ namespace WSR_2021.View.Pages
         #region Закрытые поля
 
         private int addControlElement = 0;
-        private TextBox[] titleActivityTBox = new TextBox[12];
-        private ComboBox[] timeActivityCBox = new ComboBox[12];
-        private ComboBox[] juryActivityCBox = new ComboBox[12];
-        private Activity[] addNewAct = new Activity[12];
+        private TextBox[] titleActivityTBox = new TextBox[13];
+        private ComboBox[] timeActivityCBox = new ComboBox[13];
+        private ComboBox[] juryActivityCBox = new ComboBox[13];
+        private Activity[] addNewAct = new Activity[13];
 
         private TimeSpan start = new TimeSpan();
         private TimeSpan end = new TimeSpan();
