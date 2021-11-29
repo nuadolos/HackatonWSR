@@ -67,7 +67,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Resource" Type="nvarchar" MaxLength="50" />
+          <Property Name="Resource" Type="varbinary(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -546,7 +546,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Resource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Resource" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="ActivityDocument" Relationship="HackatonWSRModel.FK_ActivityDocument_Document" FromRole="Document" ToRole="ActivityDocument" />
         </EntityType>
         <EntityType Name="Event">

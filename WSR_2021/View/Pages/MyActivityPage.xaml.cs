@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +34,8 @@ namespace WSR_2021.View.Pages
         int indexActivity;
         private int displayActivities = 0;
         private Button[] activityBtn;
+
+        private Activity item;
         private Activity[] activities;
 
         #endregion
@@ -82,17 +86,58 @@ namespace WSR_2021.View.Pages
 
         private void AddDocBtn_Click(object sender, RoutedEventArgs e)
         {
+            Document doc = new Document();
 
+            OpenFileDialog dialogFile = new OpenFileDialog();
+            
+            if (dialogFile.ShowDialog() == true)
+            {
+                byte[] fileDB = File.ReadAllBytes(dialogFile.FileName);
+
+                doc.Name = dialogFile.SafeFileName;
+                doc.Resource = fileDB;
+
+                if (doc.Id == 0)
+                {
+                    ActivityDocument actDoc = new ActivityDocument()
+                    {
+                        ActivityId = item.Id,
+                        DocumentId = 0
+                    };
+
+                    Transition.Context.Document.Add(doc);
+                    Transition.Context.ActivityDocument.Add(actDoc);
+                }
+            }
+
+            try
+            {
+                Transition.Context.SaveChanges();
+                Transition.Context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                ResourcesLV.ItemsSource = Transition.Context.ActivityDocument.Where(p => p.ActivityId == item.Id).ToList();
+                MessageBox.Show("Файл загружен", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show($"При загрузке файла произошла ошибка:\n{er.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void DownloadBtn_Click(object sender, RoutedEventArgs e)
         {
+            var itemDoc = ((sender as Button).DataContext as ActivityDocument).Document;
 
+            using (FileStream downloadFile = new FileStream($@"C:\Users\nuadolos\Downloads\{itemDoc.Name}", FileMode.Create))
+            {
+                downloadFile.Write(itemDoc.Resource, 0, itemDoc.Resource.Length);
+            }
+
+            MessageBox.Show("Файл скачен", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ViewDocBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            //Реализовать вывод документа на экран, доступное только для чтения, в другом окне
         }
 
         #endregion
@@ -193,7 +238,7 @@ namespace WSR_2021.View.Pages
             ResourcesActivity.Visibility = Visibility.Hidden;
             ParticipantActivity.Visibility = Visibility.Visible;
 
-            var item = activities[indexActivity - 1];
+            item = activities[indexActivity - 1];
             ParticipantLV.ItemsSource = Transition.Context.ActivityParticipant.Where(p => p.ActivityId == item.Id).ToList();
         }
 
@@ -202,7 +247,7 @@ namespace WSR_2021.View.Pages
             ParticipantActivity.Visibility = Visibility.Hidden;
             ResourcesActivity.Visibility = Visibility.Visible;
 
-            var item = activities[indexActivity - 1];
+            item = activities[indexActivity - 1];
             ResourcesLV.ItemsSource = Transition.Context.ActivityDocument.Where(p => p.ActivityId == item.Id).ToList();
         }
 

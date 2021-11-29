@@ -54,8 +54,12 @@
                         <DataTemplate>
                             <WrapPanel>
                                 <TextBlock Text="{Binding Document.Name}"></TextBlock>
-                                <Button Width="30" Name="DownloadBtn" Click="DownloadBtn_Click"></Button>
-                                <Button Width="30" Name="ViewDocBtn" Click="ViewDocBtn_Click"></Button>
+                                <Button Width="30" Name="DownloadBtn" Click="DownloadBtn_Click">
+                                    <Image Source="/View/Picture/downloadbtn.png"></Image>
+                                </Button>
+                                <Button Width="30" Name="ViewDocBtn" Click="ViewDocBtn_Click">
+                                    <Image Source="/View/Picture/viewbtn.png"></Image>
+                                </Button>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

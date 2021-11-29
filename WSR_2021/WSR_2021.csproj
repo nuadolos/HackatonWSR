@@ -260,6 +260,8 @@
       <DependentUpon>HackatonModel.edmx</DependentUpon>
       <LastGenOutput>HackatonModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="View\Picture\downloadbtn.png" />
+    <Resource Include="View\Picture\viewbtn.png" />
     <Resource Include="View\Picture\s-F4iTxVzYg.jpg" />
   </ItemGroup>
   <ItemGroup>

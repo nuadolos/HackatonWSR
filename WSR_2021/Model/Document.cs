@@ -22,7 +22,7 @@ namespace WSR_2021.Model
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Resource { get; set; }
+        public byte[] Resource { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ActivityDocument> ActivityDocument { get; set; }
