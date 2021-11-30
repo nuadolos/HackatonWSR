@@ -152,7 +152,8 @@ namespace WSR_2021.View.Pages
 
                 foreach (var item in timeActivityCBox)
                 {
-                    item.ItemsSource = ListTimeEvent(start, end);
+                    if (item != null)
+                        item.ItemsSource = ListTimeEvent(start, end);
                 }
             }
             catch (Exception)
@@ -169,7 +170,8 @@ namespace WSR_2021.View.Pages
 
                 foreach (var item in timeActivityCBox)
                 {
-                    item.ItemsSource = ListTimeEvent(start, end);
+                    if (item != null)
+                        item.ItemsSource = ListTimeEvent(start, end);
                 }
             }
             catch (Exception)
@@ -201,14 +203,14 @@ namespace WSR_2021.View.Pages
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder error = new StringBuilder();
-
+            MessageBox.Show($"{DateTime.Parse(StartEventTBox.Text.Split(' ')[0])}");
             try
             {
                 if (StartEventTBox.Text.Split(' ')[0] == EndEventTBox.Text.Split(' ')[0])
                     newEvent.DateEvent = DateTime.Parse(StartEventTBox.Text.Split(' ')[0]);
                 else
                     error.AppendLine("Даты должны совпадать");
-
+                                      
                 newEvent.StartEvent = TimeSpan.Parse(StartEventTBox.Text.Split(' ')[1]);
                 newEvent.EndEvent = TimeSpan.Parse(EndEventTBox.Text.Split(' ')[1]);
             }
@@ -246,13 +248,13 @@ namespace WSR_2021.View.Pages
                     newDrirection.Name = CityTBox.Text;
             }
 
-            AddItemActivity();
-
             if (error.Length > 0)
             {
                 MessageBox.Show($"При сохранении возникли следующие ошибки:\n{error}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            AddItemActivity();
 
             if (newEvent.Id == 0)
             {
@@ -300,7 +302,8 @@ namespace WSR_2021.View.Pages
                     addNewAct[i].TimeActivity = TimeSpan.Parse(timeActivityCBox[i].SelectedValue.ToString());
                     addNewAct[i].JuryId = (juryActivityCBox[i].SelectedItem as Users).Id;
 
-                    Transition.Context.Activity.Add(addNewAct[i]);
+                    if (addNewAct[i] != null)
+                        Transition.Context.Activity.Add(addNewAct[i]);
                 }
 
                 Transition.Context.SaveChanges();
@@ -336,11 +339,11 @@ namespace WSR_2021.View.Pages
 
         #endregion
 
-        #region Переход на страницу 
+        #region Переход на страницу KanbanBoard
 
         private void BoardBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Transition.MainFrame.Navigate(new KanbanBoard());
         }
 
         #endregion

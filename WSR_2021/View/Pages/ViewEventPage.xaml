@@ -19,7 +19,7 @@
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.ColumnSpan="2" Text="Название мероприятия" FontSize="36"></TextBlock>
+        <TextBlock Grid.ColumnSpan="2" Text="{Binding Title}" FontSize="36"></TextBlock>
 
         <StackPanel Grid.Row="1" Margin="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" OpacityMask="Black">
             <Image Source="/View/Picture/s-F4iTxVzYg.jpg" Width="100" Height="100" Margin="20" HorizontalAlignment="Left"></Image>

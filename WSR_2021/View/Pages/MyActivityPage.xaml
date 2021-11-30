@@ -54,10 +54,10 @@
                         <DataTemplate>
                             <WrapPanel>
                                 <TextBlock Text="{Binding Document.Name}"></TextBlock>
-                                <Button Width="30" Name="DownloadBtn" Click="DownloadBtn_Click">
+                                <Button Width="30" Name="DownloadBtn" Click="DownloadBtn_Click" Background="WhiteSmoke">
                                     <Image Source="/View/Picture/downloadbtn.png"></Image>
                                 </Button>
-                                <Button Width="30" Name="ViewDocBtn" Click="ViewDocBtn_Click">
+                                <Button Width="30" Name="ViewDocBtn" Click="ViewDocBtn_Click" Background="WhiteSmoke">
                                     <Image Source="/View/Picture/viewbtn.png"></Image>
                                 </Button>
                             </WrapPanel>
