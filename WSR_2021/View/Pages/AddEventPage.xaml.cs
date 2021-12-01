@@ -23,16 +23,6 @@ namespace WSR_2021.View.Pages
     /// </summary>
     public partial class AddEventPage : Page
     {
-
-        /* На данной странице необходимо доделать следующее:
-         * 1. Реализовать переход на страницу с kanban-доской
-         * 2. Реализовать подсказки с указанием на ошибку (Активности)
-         * 3. Реализовать добавление в таблицу вводимые направления и города
-         * 4. Дополнительно! Обработать исключение, связанное с TitleEventCBox
-         * 5. Протестировать работу переключения выпадающего списка на поля для ввода и наоборот
-         * 6. Обработать свойство Title, для избежания знаков, которые нельзя использовать для названия файла, класса Event при сохранении .csv файла
-        */
-
         #region Закрытые поля
 
         private int addControlElement = 0;
@@ -49,8 +39,8 @@ namespace WSR_2021.View.Pages
         private Direction newDrirection = new Direction();
         private City newCity = new City();
 
-        private int CountPressingDirBtn = 0;
-        private int CountPressingCityBtn = 0;
+        private int countPressingDirBtn = 0;
+        private int countPressingCityBtn = 0;
 
         #endregion
 
@@ -103,9 +93,9 @@ namespace WSR_2021.View.Pages
         //С целью добавление записи в таблицу "Направление"
         private void AddDirectionBtn_Click(object sender, RoutedEventArgs e)
         {
-            CountPressingDirBtn++;
+            countPressingDirBtn++;
 
-            if (CountPressingDirBtn % 2 == 0)
+            if (countPressingDirBtn % 2 == 0)
             {
                 DirectionTBox.Text = null;
                 DirectionCBox.Visibility = Visibility.Visible;
@@ -116,16 +106,16 @@ namespace WSR_2021.View.Pages
                 DirectionCBox.Visibility = Visibility.Hidden;
             }
 
-            if (CountPressingDirBtn == 10)
-                CountPressingDirBtn = 0;
+            if (countPressingDirBtn == 10)
+                countPressingDirBtn = 0;
         }
 
         //С целью добавление записи в таблицу "Город"
         private void AddCityBtn_Click(object sender, RoutedEventArgs e)
         {
-            CountPressingCityBtn++;
+            countPressingCityBtn++;
 
-            if (CountPressingCityBtn % 2 == 0)
+            if (countPressingCityBtn % 2 == 0)
             {
                 CityTBox.Text = null;
                 CityCBox.Visibility = Visibility.Visible;
@@ -136,8 +126,8 @@ namespace WSR_2021.View.Pages
                 CityCBox.Visibility = Visibility.Hidden;
             }
 
-            if (CountPressingCityBtn == 10)
-                CountPressingCityBtn = 0;
+            if (countPressingCityBtn == 10)
+                countPressingCityBtn = 0;
         }
 
         #endregion
@@ -203,7 +193,7 @@ namespace WSR_2021.View.Pages
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder error = new StringBuilder();
-            MessageBox.Show($"{DateTime.Parse(StartEventTBox.Text.Split(' ')[0])}");
+
             try
             {
                 if (StartEventTBox.Text.Split(' ')[0] == EndEventTBox.Text.Split(' ')[0])
@@ -222,10 +212,18 @@ namespace WSR_2021.View.Pages
             newEvent.Title = TitleEventTBox.Text;
             if (string.IsNullOrWhiteSpace(newEvent.Title))
                 error.AppendLine("Укажите название");
-
-            if (CountPressingDirBtn % 2 == 0)
+            char[] titleSymbol = TitleEventTBox.Text.ToCharArray();
+            foreach (var symbol in titleSymbol)
             {
-                if (newEvent.Direction.Name == null)
+                if (!char.IsWhiteSpace(symbol) && !char.IsLetterOrDigit(symbol))
+                {
+                    error.AppendLine($"Символ {symbol} в названии мероприятия не допустим");
+                }
+            }
+
+            if (countPressingDirBtn % 2 == 0)
+            {
+                if (DirectionCBox.SelectedItem == null)
                     error.AppendLine("Выберите направление");
             }
             else
@@ -235,9 +233,9 @@ namespace WSR_2021.View.Pages
                 else
                     newDrirection.Name = DirectionTBox.Text;
             }
-            if (CountPressingCityBtn % 2 == 0)
+            if (countPressingCityBtn % 2 == 0)
             {
-                if (newEvent.City.Name == null)
+                if (CityCBox.SelectedItem == null)
                     error.AppendLine("Выберите город");
             }
             else
@@ -245,7 +243,7 @@ namespace WSR_2021.View.Pages
                 if (string.IsNullOrWhiteSpace(CityTBox.Text))
                     error.AppendLine("Укажите город");
                 else
-                    newDrirection.Name = CityTBox.Text;
+                    newCity.Name = CityTBox.Text;
             }
 
             if (error.Length > 0)
@@ -254,7 +252,8 @@ namespace WSR_2021.View.Pages
                 return;
             }
 
-            AddItemActivity();
+            if (AddItemActivity() == false)
+                return;
 
             if (newEvent.Id == 0)
             {
@@ -271,6 +270,11 @@ namespace WSR_2021.View.Pages
                         Transition.Context.EventActivity.Add(evAct);
                     } 
                 }
+
+                if (countPressingDirBtn % 2 != 0)
+                    Transition.Context.Direction.Add(newDrirection);
+                if (countPressingCityBtn % 2 != 0)
+                    Transition.Context.City.Add(newCity);
 
                 Transition.Context.Event.Add(newEvent);
             }
@@ -290,28 +294,52 @@ namespace WSR_2021.View.Pages
         /// <summary>
         /// Метод AddItemActivity, отвечающий за добавление новых экземляров класса Activity в таблицу Activity
         /// </summary>
-        private void AddItemActivity()
+        private bool AddItemActivity()
         {
-            try
+            for (int i = 0; i < addControlElement; i++)
             {
-                for (int i = 0; i < addControlElement; i++)
-                {
-                    addNewAct[i] = new Activity();
+                addNewAct[i] = new Activity();
 
-                    addNewAct[i].Title = titleActivityTBox[i].Text;
+                addNewAct[i].Title = titleActivityTBox[i].Text;
+                if (timeActivityCBox[i].SelectedValue != null)
                     addNewAct[i].TimeActivity = TimeSpan.Parse(timeActivityCBox[i].SelectedValue.ToString());
+                if (juryActivityCBox[i].SelectedItem != null)
                     addNewAct[i].JuryId = (juryActivityCBox[i].SelectedItem as Users).Id;
 
-                    if (addNewAct[i] != null)
-                        Transition.Context.Activity.Add(addNewAct[i]);
-                }
+                if (!string.IsNullOrWhiteSpace(addNewAct[i].Title) || timeActivityCBox[i].SelectedValue != null || juryActivityCBox[i].SelectedItem != null)
+                {
+                    StringBuilder error = new StringBuilder();
 
+                    if (string.IsNullOrWhiteSpace(addNewAct[i].Title))
+                        error.AppendLine($"Укажите название {i + 1} активности");
+                    if (timeActivityCBox[i].SelectedValue == null)
+                        error.AppendLine($"Выберите время {i + 1} активности");
+                    if (juryActivityCBox[i].SelectedItem == null)
+                        error.AppendLine($"Выберите жюри {i + 1} активности");
+
+                    if (error.Length > 0)
+                    {
+                        MessageBox.Show($"При сохранении активностей возникли следующие ошибки:\n{error}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
+
+                    Transition.Context.Activity.Add(addNewAct[i]);
+                }
+                else
+                    addNewAct[i] = null;
+            }
+            
+            try
+            {
                 Transition.Context.SaveChanges();
+                return true;
             }
             catch (Exception er)
             {
                 MessageBox.Show($"При добавлении активностей произошла ошибка: {er.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            return false;
         }
 
         #endregion
@@ -376,6 +404,7 @@ namespace WSR_2021.View.Pages
             else
                 MessageBox.Show("Количество активностей превышает норму", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
 
         #endregion
     }

@@ -84,7 +84,7 @@ namespace WSR_2021.View.Pages
                 PasTBox.Visibility = Visibility.Hidden;
                 PassPBox.Focus();
             }
-            if (PasTBox.Text == "Password")
+            if (PasTBox.Text == "Password" || PasTBox.Text == null)
             {
                 PasTBox.FontStyle = FontStyles.Normal;
                 PasTBox.Foreground = Brushes.Black;
@@ -110,7 +110,7 @@ namespace WSR_2021.View.Pages
                 RePasTBox.Visibility = Visibility.Hidden;
                 RePassPBox.Focus();
             }
-            if (RePasTBox.Text == "Re-enter password")
+            if (RePasTBox.Text == "Re-enter password" || RePasTBox.Text == null)
             {
                 RePasTBox.Text = null;
                 RePasTBox.FontStyle = FontStyles.Normal;
@@ -175,17 +175,25 @@ namespace WSR_2021.View.Pages
             {
                 PasTBox.BorderBrush = Brushes.Red;
                 PassPBox.BorderBrush = Brushes.Red;
+                PasTBox.BorderThickness = new Thickness(2);
+                PassPBox.BorderThickness = new Thickness(2);
 
                 PasTBox.ToolTip = "Пароль не соотвествует требованиям:\n" + error;
                 PassPBox.ToolTip = "Пароль не соотвествует требованиям:\n" + error;
+
+                RePasTBox.IsEnabled = false;
+                RePassPBox.IsEnabled = false;
             }
             else
             {
-                PasTBox.BorderBrush = Brushes.Green;
-                PassPBox.BorderBrush = Brushes.Green;
+                PasTBox.BorderBrush = Brushes.GreenYellow;
+                PassPBox.BorderBrush = Brushes.GreenYellow;
 
                 PasTBox.ToolTip = null;
                 PassPBox.ToolTip = null;
+
+                RePasTBox.IsEnabled = true;
+                RePassPBox.IsEnabled = true;
             }
         }
 
@@ -290,21 +298,21 @@ namespace WSR_2021.View.Pages
 
             StringBuilder tempStr = new StringBuilder(PhoneMaskTBox.Text);
 
-            bool aga = false;
-            if (textdo.Length > tempStr.Length)
-            {
-                for (int j = 0; j < tempStr.Length; j++)
-                {
-                    if (textdo[j] != tempStr[j])
-                    {
-                        tempStr[j] = '_';
-                        aga = true;
-                    }
-                }
+            //bool aga = false;
+            //if (textdo.Length > tempStr.Length)
+            //{
+            //    for (int j = 0; j < tempStr.Length; j++)
+            //    {
+            //        if (textdo[j] != tempStr[j])
+            //        {
+            //            tempStr[j] = '_';
+            //            aga = true;
+            //        }
+            //    }
 
-                if (!aga)
-                    tempStr.Append("_");
-            }
+            //    if (!aga)
+            //        tempStr.Append("_");
+            //}
 
             int tempSymbol = 0;
             for (int j = 0; j < tempStr.Length; j++)
@@ -357,10 +365,7 @@ namespace WSR_2021.View.Pages
 
         private void PhoneMaskTBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (PhoneMaskTBox.Text == "+7(___)___-__-__")
-            {
-                PhoneMaskTBox.Select(pozitionNumPhone, 0);
-            }
+            PhoneMaskTBox.Text = "+7(___)___-__-__";
         }
 
         #endregion

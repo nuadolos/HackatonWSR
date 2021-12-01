@@ -45,12 +45,11 @@ namespace WSR_2021.View.Pages
 
         #region Смена пароля
 
-        #region События ChangeChech, запрещающие контакт с полями ввода пароля и наоборот
+        #region События ChangeCheck, запрещающие контакт с полями ввода пароля и наоборот
 
         private void ChangeCheck_Checked(object sender, RoutedEventArgs e)
         {
             PasTBox.IsEnabled = true;
-            RePasTBox.IsEnabled = true;
             PassCheck.IsEnabled = true;
         }
 
@@ -64,6 +63,8 @@ namespace WSR_2021.View.Pages
             RePassPBox.Password = null;
             PasTBox.Visibility = Visibility.Visible;
             RePasTBox.Visibility = Visibility.Visible;
+            PasTBox.Foreground = Brushes.Gray;
+            RePasTBox.Foreground = Brushes.Gray;
             PasTBox.Text = "Password";
             RePasTBox.Text = "Re-enter password";
         }
@@ -106,7 +107,7 @@ namespace WSR_2021.View.Pages
                 PasTBox.Visibility = Visibility.Hidden;
                 PassPBox.Focus();
             }
-            if (PasTBox.Text == "Password")
+            if (PasTBox.Text == "Password" || PasTBox.Text == null)
             {
                 PasTBox.FontStyle = FontStyles.Normal;
                 PasTBox.Foreground = Brushes.Black;
@@ -132,7 +133,7 @@ namespace WSR_2021.View.Pages
                 RePasTBox.Visibility = Visibility.Hidden;
                 RePassPBox.Focus();
             }
-            if (RePasTBox.Text == "Re-enter password")
+            if (RePasTBox.Text == "Re-enter password" || RePasTBox.Text == null)
             {
                 RePasTBox.Text = null;
                 RePasTBox.FontStyle = FontStyles.Normal;
@@ -221,17 +222,25 @@ namespace WSR_2021.View.Pages
             {
                 PasTBox.BorderBrush = Brushes.Red;
                 PassPBox.BorderBrush = Brushes.Red;
+                PasTBox.BorderThickness = new Thickness(2);
+                PassPBox.BorderThickness = new Thickness(2);
 
                 PasTBox.ToolTip = "Пароль не соотвествует требованиям:\n" + error;
                 PassPBox.ToolTip = "Пароль не соотвествует требованиям:\n" + error;
+
+                RePasTBox.IsEnabled = false;
+                RePassPBox.IsEnabled = false;
             }
             else
             {
-                PasTBox.BorderBrush = Brushes.Green;
-                PassPBox.BorderBrush = Brushes.Green;
+                PasTBox.BorderBrush = Brushes.GreenYellow;
+                PassPBox.BorderBrush = Brushes.GreenYellow;
 
                 PasTBox.ToolTip = null;
                 PassPBox.ToolTip = null;
+
+                RePasTBox.IsEnabled = true;
+                RePassPBox.IsEnabled = true;
             }
         }
 

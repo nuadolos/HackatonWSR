@@ -24,9 +24,8 @@ namespace WSR_2021.View.Pages
     {
         #region Закрытые поля
 
-        Button grabbedBtn;
+        private Button grabbedBtn;
         private Button[] activityButtons;
-        private StackPanel[] activityPanel;
         private Activity[] kanbanAct;
 
         #endregion
@@ -56,67 +55,65 @@ namespace WSR_2021.View.Pages
                 int id = (EventCBox.SelectedItem as Event).Id;
                 var evAct = Transition.Context.EventActivity.Where(p => p.EventId == id).ToList();
 
-                int totalStackPanel = (int)Math.Ceiling((decimal)evAct.Count / 3) + 1;
-                activityPanel = new StackPanel[totalStackPanel];
                 kanbanAct = new Activity[evAct.Count];
                 activityButtons = new Button[evAct.Count];
 
                 for (int i = 0; i < kanbanAct.Length; i++)
                 {
-                    int tempId = evAct[i].ActivityId;
-                    kanbanAct[i] = Transition.Context.Activity.FirstOrDefault(p => p.Id == tempId);
+                    kanbanAct[i] = evAct[i].Activity;
                 }
 
                 int index = 0;
-                for (int i = 0; i < activityPanel.Length; i++)
+                int x = 100;
+                int y = 0;
+                for (int j = 0; j < activityButtons.Length; j++)
                 {
-                    HorizontalAlignment horizontal = HorizontalAlignment.Left;
-                    switch (i)
+
+                    if (index == activityButtons.Length)
+                        break;
+
+                    if (j == 4)
                     {
-                        case 0:
-                            horizontal = HorizontalAlignment.Left;
-                            break;
-                        case 1:
-                            horizontal = HorizontalAlignment.Center;
-                            break;
-                        case 2:
-                            horizontal = HorizontalAlignment.Right;
-                            break;
+                        x = 400;
+                        y = 0;
                     }
-                    activityPanel[i] = new StackPanel() { Margin = new Thickness(20), HorizontalAlignment = horizontal};
-
-                    for (int j = 0; j < (int)Math.Ceiling((decimal)activityButtons.Length / 3); j++)
+                    if (j == 8)
                     {
-                        if (index == activityButtons.Length)
-                            break;
+                        x = 700;
+                        y = 0;
+                    }
 
-                        activityButtons[index] = new Button()
+                    activityButtons[index] = new Button()
+                    {
+                        Width = 250,
+                        Height = 70,
+                        Content = new TextBlock()
                         {
-                            Width = 250,
-                            Height = 70,
-                            Content = new TextBlock()
-                            {
-                                Text = $"{kanbanAct[index].Title}, {kanbanAct[index].TimeActivity}, {kanbanAct[index].Users.Surname}",
-                                TextWrapping = TextWrapping.Wrap,
-                                TextAlignment = TextAlignment.Center
-                            },
-                            IsHitTestVisible = true
-                        };
-                        activityButtons[index].MouseMove += ButtonMove;//Исправить на левое нажатии мыши
+                            Text = $"{kanbanAct[index].Title}, {kanbanAct[index].TimeActivity}, {kanbanAct[index].Users.Surname}",
+                            TextWrapping = TextWrapping.Wrap,
+                            TextAlignment = TextAlignment.Center
+                        },
+                        IsHitTestVisible = true
+                    };
+                    activityButtons[index].MouseMove += ButtonMove;//Исправить на левое нажатии мыши
 
-                        ActivityCanvas.Children.Add(activityButtons[index]);
-                        
-                        index++;
-                    }
+                    ActivityCanvas.Children.Add(activityButtons[index]);
+                    Canvas.SetLeft(ActivityCanvas.Children[index], x);
+                    Canvas.SetTop(ActivityCanvas.Children[index], y);
+
+                    index++;
+                    y += 90;
                 }
             }
         }
 
         #endregion
 
+        #region Перемещение активностей по ActivityCanvas при зажатой ПКМ
+
         private void ButtonMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.RightButton == MouseButtonState.Pressed)
             {
                 grabbedBtn = (Button)sender;
                 grabbedBtn.IsHitTestVisible = false;
@@ -138,5 +135,16 @@ namespace WSR_2021.View.Pages
             Canvas.SetLeft(grabbedBtn, movePosition.X);
             Canvas.SetTop(grabbedBtn, movePosition.Y);
         }
+
+        #endregion
+
+        //Установить библиотеку, имеющая функции для работы с PDF-файлами, и создать его для вывода активностей
+        #region Создание PDF-файла 
+        private void CreatePDFBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }

@@ -23,19 +23,13 @@ namespace WSR_2021.View.Pages
     /// </summary>
     public partial class EventPage : Page
     {
-        #region Закрытые поля
-
-        private List<Event> ListEvent { get; set; } = Transition.Context.Event.ToList();
-
-        #endregion
-
         #region Конструктор страницы EventPage
 
         public EventPage()
         {
             InitializeComponent();
 
-            EventGrid.ItemsSource = ListEvent;
+            EventGrid.ItemsSource = Transition.Context.Event.ToList();
 
             var allDirection = Transition.Context.Direction.ToList();
             allDirection.Insert(0, new Direction
@@ -67,7 +61,7 @@ namespace WSR_2021.View.Pages
 
         private void UpdateEventGrid()
         {
-            var tempData = ListEvent;
+            var tempData = Transition.Context.Event.ToList();
 
             if (DirectionCBox.SelectedIndex > 0)
                 tempData = tempData.Where(p => p.Direction.Name == (DirectionCBox.SelectedItem as Direction).Name).ToList();
@@ -114,6 +108,19 @@ namespace WSR_2021.View.Pages
         private void AddEventBtn_Click(object sender, RoutedEventArgs e)
         {
             Transition.MainFrame.Navigate(new AddEventPage());
+        }
+
+        #endregion
+
+        #region Обновление таблицы при добавлении мероприятия
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Transition.Context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                UpdateEventGrid();
+            }
         }
 
         #endregion

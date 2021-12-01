@@ -253,11 +253,11 @@ namespace WSR_2021.View.Pages
 
         #endregion
 
-        #region Переход на страницу
+        #region Переход на страницу KanbanBoard
 
         private void KanbanBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Transition.MainFrame.Navigate(new KanbanBoard());
         }
 
         #endregion

@@ -22,12 +22,6 @@ namespace WSR_2021.View.Pages
     /// </summary>
     public partial class ViewModerJury : Page
     {
-        #region Закрытые поля
-
-        private List<Users> listModerJury = Transition.Context.Users.Where(p => p.Role.Name == "Moderator" || p.Role.Name == "Jury").ToList();
-
-        #endregion
-
         #region Конструктор страницы ViewModerJury
 
         public ViewModerJury()
@@ -44,33 +38,35 @@ namespace WSR_2021.View.Pages
             EventCBox.ItemsSource = allEvents;
             EventCBox.SelectedIndex = 0;
 
-            ModerJuryGrid.ItemsSource = listModerJury;
+            ModerJuryGrid.ItemsSource = Transition.Context.Users.Where(p => p.Role.Name == "Moderator" || p.Role.Name == "Jury").ToList();
         }
 
         #endregion
 
         #region Сортировка и фильтрация ModerJuryGrid
 
-        //Переделать сортировку по мероприятиям
         private void UpdateModerJuryGrid()
         {
-            var tempData = listModerJury;
+            var tempData = Transition.Context.Users.Where(p => p.Role.Name == "Moderator" || p.Role.Name == "Jury").ToList();
+
+            if (EventCBox.SelectedIndex > 0)
+            {
+                int idEvent = (EventCBox.SelectedItem as Event).Id;
+                var tempEvent = Transition.Context.EventActivity.Where(p => p.EventId == idEvent).ToList();
+
+                tempData.Clear();
+                for (int i = 0; i < tempEvent.Count; i++)
+                {
+                    int idJury = tempEvent[i].Activity.JuryId;
+                    var tempUser = Transition.Context.Users.FirstOrDefault(p => p.Id == idJury);
+                    tempData.Add(tempUser);
+                }
+            }
 
             if (SurnameCBox.SelectedIndex > 0)
                 tempData = tempData.Where(p => p.Surname == (SurnameCBox.SelectedItem as Users).Surname).ToList();
 
-            if (EventCBox.SelectedIndex > 0)
-            {
-                int bb = (EventCBox.SelectedItem as Event).Id;
-                var tempEvent = Transition.Context.EventActivity.Where(p => p.EventId == bb).ToList();
-
-                foreach (var item in tempEvent)
-                {
-                    tempData = tempData.Where(p => p.Id == item.Activity.JuryId).ToList();
-                }
-            }
-
-            ModerJuryGrid.ItemsSource = tempData;
+            ModerJuryGrid.ItemsSource = tempData.GroupBy(p => p.Id).ToList();
         }
 
         private void SurnameCBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -90,6 +86,19 @@ namespace WSR_2021.View.Pages
         private void RegBtn_Click(object sender, RoutedEventArgs e)
         {
             Transition.MainFrame.Navigate(new RegistrationModerJury());
+        }
+
+        #endregion
+
+        #region Обновление данных в ModerJuryGrid при регистрации пользователя
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Transition.Context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                UpdateModerJuryGrid();
+            }
         }
 
         #endregion

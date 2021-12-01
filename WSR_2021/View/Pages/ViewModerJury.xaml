@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:WSR_2021.View.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="900"
-      Title="ViewModerJury">
+      Title="ViewModerJury" IsVisibleChanged="Page_IsVisibleChanged">
 
     <Grid>
         <Grid.RowDefinitions>
